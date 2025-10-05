@@ -26,6 +26,7 @@ class InstallerPackager {
     console.log("==================================================\n");
 
     try {
+      this.ensureZipAvailable();
       // Check if installers directory exists
       if (!fs.existsSync(this.installersDir)) {
         console.error(
@@ -206,7 +207,7 @@ This package contains installers for both Chrome/Edge and Firefox browsers.
 
 ## Support
 
-For issues or questions, please visit: https://github.com/yourusername/fitgirl-watchlist-extension
+For issues or questions, please visit: https://github.com/alienfacepalm/fitgirl-watcher
 
 ## Version
 
@@ -229,6 +230,17 @@ ${this.config.extensionName} v${this.config.version}
       }
     } catch (error) {
       throw new Error(`Failed to create zip package: ${error.message}`);
+    }
+  }
+
+  ensureZipAvailable() {
+    if (process.platform === "win32") return;
+    try {
+      execSync("command -v zip", { stdio: "pipe", shell: "/bin/bash" });
+    } catch (e) {
+      throw new Error(
+        "'zip' is required. Install it with: sudo apt update && sudo apt install -y zip"
+      );
     }
   }
 

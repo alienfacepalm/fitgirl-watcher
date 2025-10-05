@@ -1,0 +1,15 @@
+🔧 FitGirl Watchlist Extension - Installer Creator
+================================================
+
+📁 Created installers directory
+
+🌐 Creating Chrome/Edge installer...
+  ✅ Chrome/Edge installer created
+
+🦊 Creating Firefox installer...
+  ✅ Firefox installer created
+
+🎉 Installer Creation Complete!
+===============================
+📁 Installers created in: /home/nilfux/ALIENFACEPALM/fitgirl-watcher/dist/installers
+📋 Installation guide: dist/installers/INSTALL.md

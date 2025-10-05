@@ -49,19 +49,20 @@ describe('Content script parsing and toggle', () => {
     const fg = new FitGirlWatchlist();
     await fg.setupWatchlist();
 
-    const button = document.querySelector('.fitgirl-watchlist-btn');
-    expect(button).toBeTruthy();
-    expect(button.textContent).toMatch(/Add to Watchlist/);
+    // Ensure we pick the item-level button, not the top bar toggle
+    const itemButton = document.querySelector('article .fitgirl-watchlist-btn');
+    expect(itemButton).toBeTruthy();
+    expect(itemButton.textContent).toMatch(/Add to Watchlist/);
 
     // Click to add
-    button.click();
+    itemButton.click();
     await Promise.resolve();
-    expect(button.textContent).toMatch(/In Watchlist/);
+    expect(itemButton.textContent).toMatch(/In Watchlist/);
 
     // Click to remove
-    button.click();
+    itemButton.click();
     await Promise.resolve();
-    expect(button.textContent).toMatch(/Add to Watchlist/);
+    expect(itemButton.textContent).toMatch(/Add to Watchlist/);
   });
 });
 

@@ -1,0 +1,19 @@
+📦 FitGirl Watchlist Extension - Installer Packager
+==================================================
+
+📁 Created packages directory
+
+🌐 Packaging Chrome/Edge installer...
+
+🦊 Packaging Firefox installer...
+
+📦 Creating combined installer package...
+
+🎉 Installer Packaging Complete!
+=================================
+📁 Packages created in: /home/nilfux/ALIENFACEPALM/fitgirl-watcher/dist/packages
+
+📋 Available Packages:
+  - fitgirl-watchlist-chrome-installer-v1.0.0.zip
+  - fitgirl-watchlist-firefox-installer-v1.0.0.zip
+  - fitgirl-watchlist-installers-v1.0.0.zip (both browsers)

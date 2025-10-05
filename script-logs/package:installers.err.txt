@@ -1,0 +1,9 @@
+  ❌ Failed to create Chrome installer package: Failed to create zip package: Command failed: zip -r "/home/nilfux/ALIENFACEPALM/fitgirl-watcher/dist/packages/fitgirl-watchlist-chrome-installer-v1.0.0.zip" .
+/bin/sh: 1: zip: Permission denied
+
+  ❌ Failed to create Firefox installer package: Failed to create zip package: Command failed: zip -r "/home/nilfux/ALIENFACEPALM/fitgirl-watcher/dist/packages/fitgirl-watchlist-firefox-installer-v1.0.0.zip" .
+/bin/sh: 1: zip: Permission denied
+
+  ❌ Failed to create combined installer package: Failed to create zip package: Command failed: zip -r "/home/nilfux/ALIENFACEPALM/fitgirl-watcher/dist/packages/fitgirl-watchlist-installers-v1.0.0.zip" .
+/bin/sh: 1: zip: Permission denied
+

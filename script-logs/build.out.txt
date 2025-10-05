@@ -1,0 +1,123 @@
+🚀 FitGirl Watchlist Extension Builder
+=====================================
+
+🔨 Building for Chrome...
+🚀 Building FitGirl Watchlist for Chrome/Edge...
+📦 Version: 1.0.2
+📋 Copying files...
+  ✓ manifest.json
+  ✓ background.js
+  ✓ content.js
+  ✓ popup.html
+  ✓ popup.js
+  ✓ popup.css
+  ✓ styles.css
+  ✓ icons/
+🎨 Checking icons...
+⚠️  Missing icons: icon16.png, icon48.png, icon128.png
+📝 Please generate icons using generate-icons.html
+   or create them manually in the icons/ directory
+🔧 Creating placeholder icons...
+  ✓ Created icon16.svg (16x16)
+  ✓ Created icon48.svg (48x48)
+  ✓ Created icon128.svg (128x128)
+⚠️  Note: PNG icons are required for the extension to work properly
+   Please convert the SVG files to PNG or use generate-icons.html
+  ✓ Updated manifest version
+📦 Creating zip package...
+   You can manually zip the contents of the dist/chrome/ directory
+✅ Chrome/Edge build completed successfully!
+📁 Build output: /home/nilfux/ALIENFACEPALM/fitgirl-watcher/dist/chrome
+📦 Package: dist/fitgirl-watchlist-chrome-v1.0.2.zip
+
+🔨 Building for Edge...
+🚀 Building FitGirl Watchlist for Microsoft Edge...
+📦 Version: 1.0.2
+📋 Copying files...
+  ✓ manifest.json
+  ✓ background.js
+  ✓ content.js
+  ✓ popup.html
+  ✓ popup.js
+  ✓ popup.css
+  ✓ styles.css
+  ✓ icons/
+🎨 Checking icons...
+⚠️  Missing icons: icon16.png, icon48.png, icon128.png
+📝 Please generate icons using generate-icons.html
+   or create them manually in the icons/ directory
+🔧 Creating placeholder icons...
+  ✓ Created icon16.svg (16x16)
+  ✓ Created icon48.svg (48x48)
+  ✓ Created icon128.svg (128x128)
+⚠️  Note: PNG icons are required for the extension to work properly
+   Please convert the SVG files to PNG or use generate-icons.html
+  ✓ Updated manifest version
+📦 Creating zip package...
+   You can manually zip the contents of the dist/edge/ directory
+✅ Edge build completed successfully!
+📁 Build output: /home/nilfux/ALIENFACEPALM/fitgirl-watcher/dist/edge
+📦 Package: dist/fitgirl-watchlist-edge-v1.0.2.zip
+
+🔨 Building for Firefox...
+🦊 Building FitGirl Watchlist for Firefox...
+📦 Version: 1.0.2
+📋 Copying files...
+  ✓ manifest.json (Firefox version)
+  ✓ background.js
+  ✓ content.js
+  ✓ popup.html
+  ✓ popup.js
+  ✓ popup.css
+  ✓ styles.css
+  ✓ icons/
+🎨 Checking icons...
+⚠️  Missing icons: icon16.png, icon48.png, icon128.png
+📝 Please generate icons using generate-icons.html
+   or create them manually in the icons/ directory
+🔧 Creating placeholder icons...
+  ✓ Created icon16.svg (16x16)
+  ✓ Created icon48.svg (48x48)
+  ✓ Created icon128.svg (128x128)
+⚠️  Note: PNG icons are required for the extension to work properly
+   Please convert the SVG files to PNG or use generate-icons.html
+  ✓ Updated manifest version
+📦 Creating XPI package...
+   You can manually zip the contents of the dist/firefox/ directory
+✅ Firefox build completed successfully!
+📁 Build output: /home/nilfux/ALIENFACEPALM/fitgirl-watcher/dist/firefox
+📦 Package: dist/fitgirl-watchlist-firefox-v1.0.2.xpi
+
+🎉 Build Summary
+================
+✅ Successfully built for: Chrome, Edge, Firefox
+⏱️  Total build time: 0.41s
+📁 Output directory: /home/nilfux/ALIENFACEPALM/fitgirl-watcher/dist
+
+📋 Installation Instructions
+============================
+
+🌐 Chrome:
+  1. Open Chrome/Edge and go to chrome://extensions/
+  2. Enable "Developer mode" (toggle in top right)
+  3. Click "Load unpacked" and select the dist/chrome/ folder
+  4. Or install the .zip file from dist/
+
+🟦 Microsoft Edge:
+  1. Open Edge and go to edge://extensions/
+  2. Enable "Developer mode" (toggle in left sidebar)
+  3. Click "Load unpacked" and select the dist/edge/ folder
+  4. Or install the .zip file from dist/
+
+🦊 Firefox:
+  1. Open Firefox and go to about:debugging
+  2. Click "This Firefox" in the left sidebar
+  3. Click "Load Temporary Add-on"
+  4. Select the manifest.json file from dist/firefox/
+  5. Or install the .xpi file from dist/
+
+💡 Tips:
+  - Make sure to generate PNG icons before building
+  - Test the extension on fitgirl-repacks.site pages
+  - Run 'pnpm run installers' to create user-friendly installers
+  - Check the browser console for any errors

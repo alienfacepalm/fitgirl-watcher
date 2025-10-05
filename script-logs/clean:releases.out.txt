@@ -1,0 +1,4 @@
+🧹 FitGirl Watchlist Extension - Release Cleaner
+==============================================
+
+📦 Found 0 release files. Keeping all (limit: 5).

@@ -1,0 +1,1 @@
+Open assets/generate-icons.html in your browser to generate required PNG icons

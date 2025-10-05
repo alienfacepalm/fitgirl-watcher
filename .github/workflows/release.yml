@@ -1,0 +1,54 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build and package release artifacts
+        run: pnpm run release:pre
+
+      - name: Determine release notes and artifacts
+        id: find_files
+        run: |
+          latest_notes=$(ls -1t releases/RELEASE_NOTES_* | head -n 1 || true)
+          echo "notes=${latest_notes}" >> $GITHUB_OUTPUT
+          echo "Found notes: ${latest_notes}"
+          # List artifacts to upload (zip/xpi)
+          ls -1 releases/*.zip || true
+          ls -1 releases/*.xpi || true
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            releases/*.zip
+            releases/*.xpi
+          body_path: ${{ steps.find_files.outputs.notes }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+

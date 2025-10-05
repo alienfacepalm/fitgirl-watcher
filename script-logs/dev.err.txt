@@ -1,0 +1,9 @@
+⚠️  Failed to create zip package: Command failed: cd "/home/nilfux/ALIENFACEPALM/fitgirl-watcher/dist/chrome" && zip -r "/home/nilfux/ALIENFACEPALM/fitgirl-watcher/dist/fitgirl-watchlist-chrome-v2.0.0-pre.20251005T095350.zip" .
+/bin/sh: 1: zip: Permission denied
+
+⚠️  Failed to create zip package: Command failed: cd "/home/nilfux/ALIENFACEPALM/fitgirl-watcher/dist/edge" && zip -r "/home/nilfux/ALIENFACEPALM/fitgirl-watcher/dist/fitgirl-watchlist-edge-v2.0.0-pre.20251005T095350.zip" .
+/bin/sh: 1: zip: Permission denied
+
+⚠️  Failed to create XPI package: Command failed: cd "/home/nilfux/ALIENFACEPALM/fitgirl-watcher/dist/firefox" && zip -r "/home/nilfux/ALIENFACEPALM/fitgirl-watcher/dist/fitgirl-watchlist-firefox-v2.0.0-pre.20251005T095350.xpi" .
+/bin/sh: 1: zip: Permission denied
+

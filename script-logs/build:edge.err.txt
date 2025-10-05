@@ -1,0 +1,3 @@
+⚠️  Failed to create zip package: Command failed: cd "/home/nilfux/ALIENFACEPALM/fitgirl-watcher/dist/edge" && zip -r "/home/nilfux/ALIENFACEPALM/fitgirl-watcher/dist/fitgirl-watchlist-edge-v1.0.2.zip" .
+/bin/sh: 1: zip: Permission denied
+

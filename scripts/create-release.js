@@ -20,7 +20,7 @@ class ReleaseCreator {
       author: "FitGirl Watchlist Team",
       description:
         "A browser extension to create a watchlist for FitGirl repacks with reminder functionality",
-      homepage: "https://github.com/yourusername/fitgirl-watchlist-extension",
+      homepage: "https://github.com/alienfacepalm/fitgirl-watcher",
     };
   }
 
@@ -49,6 +49,9 @@ class ReleaseCreator {
 
       // Create releases directory
       this.createReleasesDir();
+
+      // Ensure zip tool available (Unix)
+      this.ensureZipAvailable();
 
       // Build everything
       await this.buildAll();
@@ -673,6 +676,17 @@ ${this.getChangelogContent(bumpType)}
       }
     } catch (error) {
       throw new Error(`Failed to create zip package: ${error.message}`);
+    }
+  }
+
+  ensureZipAvailable() {
+    if (process.platform === "win32") return;
+    try {
+      execSync("command -v zip", { stdio: "pipe", shell: "/bin/bash" });
+    } catch (e) {
+      throw new Error(
+        "'zip' is required. Install it with: sudo apt update && sudo apt install -y zip"
+      );
     }
   }
 

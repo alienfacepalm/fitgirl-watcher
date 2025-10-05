@@ -38,7 +38,7 @@ A browser extension that adds a watchlist feature to FitGirl repacks website, al
 
 The easiest way to install the extension is using the native HTML installers:
 
-1. **Download the latest release** from the [Releases](../../releases) page
+1. **Download the latest release** from the [Releases](https://github.com/alienfacepalm/fitgirl-watcher/releases) page
 2. **Extract the installer package** for your browser:
    - `fitgirl-watchlist-chrome-installer.zip` for Chrome/Edge
    - `fitgirl-watchlist-firefox-installer.zip` for Firefox
@@ -55,8 +55,8 @@ The native installer uses only standard web technologies (HTML, CSS, JavaScript)
 1. **Clone or download this repository**
 
    ```bash
-   git clone https://github.com/yourusername/fitgirl-watchlist-extension.git
-   cd fitgirl-watchlist-extension
+   git clone https://github.com/alienfacepalm/fitgirl-watcher.git
+   cd fitgirl-watcher
    ```
 
 2. **Install Dependencies**
@@ -117,8 +117,8 @@ The native installer uses only standard web technologies (HTML, CSS, JavaScript)
 1. **Clone or download this repository**
 
    ```bash
-   git clone https://github.com/yourusername/fitgirl-watchlist-extension.git
-   cd fitgirl-watchlist-extension
+   git clone https://github.com/alienfacepalm/fitgirl-watcher.git
+   cd fitgirl-watcher
    ```
 
 2. **Generate Icons** (Required)
@@ -206,7 +206,7 @@ The extension stores data locally in your browser using Chrome's storage API:
 ### Project Structure
 
 ```
-fitgirl-watchlist-extension/
+fitgirl-watcher/
 ├── src/                  # Source files
 │   ├── manifest.json     # Chrome/Edge manifest (Manifest V3)
 │   ├── manifest-firefox.json # Firefox manifest (Manifest V2)
@@ -261,12 +261,11 @@ pnpm run package:installers # Package installers into zip files
 pnpm run build:installers   # Build + create installers
 pnpm run build:native-installers # Build + create native installers
 
-# Release creation (with automatic version bumping)
-pnpm run release            # Create patch release (default)
-pnpm run release:patch      # Create patch release (bug fixes)
-pnpm run release:minor      # Create minor release (new features)
-pnpm run release:major      # Create major release (breaking changes)
-pnpm run release:pre        # Create pre-release (testing)
+# Manual release helpers (see Releases section below)
+bash scripts/release.sh patch
+bash scripts/release.sh minor
+bash scripts/release.sh major
+bash scripts/release.sh prerelease
 ```
 
 #### Build Output
@@ -357,6 +356,27 @@ npm run package
 
 This builds the extension and creates installable packages for both platforms.
 
+## Releases
+
+Manual, script-driven releases with semantic versioning and assets in `releases/`:
+
+```bash
+# One-time (Husky hooks)
+pnpm install
+pnpm exec husky init
+
+# Ensure zip exists on Linux
+sudo apt update && sudo apt install -y zip
+
+# Create a release (choose one bump): major | minor | patch | prerelease
+bash scripts/release.sh patch
+
+# Push commit and tag
+git push && git push origin v$(node -p "require('./package.json').version")
+```
+
+Then upload the artifacts from `releases/` to GitHub Releases if desired: https://github.com/alienfacepalm/fitgirl-watcher/releases
+
 ## Troubleshooting
 
 ### Common Issues
@@ -393,7 +413,7 @@ This extension is not affiliated with FitGirl Repacks. It's an independent tool 
 
 If you encounter any issues or have suggestions:
 
-1. Check the [Issues](https://github.com/yourusername/fitgirl-watchlist-extension/issues) page
+1. Check the [Issues](https://github.com/alienfacepalm/fitgirl-watcher/issues) page
 2. Create a new issue with detailed information
 3. Include your browser version and extension version
 

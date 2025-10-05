@@ -1,0 +1,36 @@
+🚀 FitGirl Watchlist Extension - Release Creator
+==============================================
+
+📋 Current version: 1.0.2
+📈 New version: 1.0.3
+✓ Updated package.json to version 1.0.3
+📁 Created releases directory
+
+🔨 Building all packages...
+  📦 Building extensions...
+  🛠️  Creating installers...
+  🌐 Creating native installers...
+  📚 Enhancing packages with documentation...
+  ✅ All builds completed successfully
+
+📦 Creating release packages...
+  🌐 Creating Chrome package...
+  🦊 Creating Firefox package...
+  🛠️  Creating installer packages...
+  🌐 Creating native installer packages...
+  📦 Creating combined release package...
+✓ Created release notes: RELEASE_NOTES_1.0.3.md
+✓ Updated CHANGELOG.md
+
+🎉 Release Creation Complete!
+=============================
+📦 Version: 1.0.3
+📁 Release files created in: /home/nilfux/ALIENFACEPALM/fitgirl-watcher/releases
+
+📋 Release Files:
+  - fitgirl-watchlist-1.0.3-chrome.zip
+  - fitgirl-watchlist-1.0.3-firefox.xpi
+  - fitgirl-watchlist-1.0.3-installers.zip
+  - fitgirl-watchlist-1.0.3-native-installers.zip
+  - RELEASE_NOTES_1.0.3.md
+  - CHANGELOG.md

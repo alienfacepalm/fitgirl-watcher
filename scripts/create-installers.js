@@ -20,7 +20,7 @@ class InstallerCreator {
       author: "FitGirl Watchlist Team",
       description:
         "A browser extension to create a watchlist for FitGirl repacks with reminder functionality",
-      homepage: "https://github.com/yourusername/fitgirl-watchlist-extension",
+      homepage: "https://github.com/alienfacepalm/fitgirl-watcher",
     };
   }
 

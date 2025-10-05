@@ -1,0 +1,15 @@
+    ❌ Failed to create Chrome package: Failed to create zip package: Command failed: zip -r "/home/nilfux/ALIENFACEPALM/fitgirl-watcher/releases/fitgirl-watchlist-2.0.0-20251005T095339-chrome.zip" .
+/bin/sh: 1: zip: Permission denied
+
+    ❌ Failed to create Firefox package: Failed to create zip package: Command failed: zip -r "/home/nilfux/ALIENFACEPALM/fitgirl-watcher/releases/fitgirl-watchlist-2.0.0-20251005T095339-firefox.xpi" .
+/bin/sh: 1: zip: Permission denied
+
+    ❌ Failed to create installer package: Failed to create zip package: Command failed: zip -r "/home/nilfux/ALIENFACEPALM/fitgirl-watcher/releases/fitgirl-watchlist-2.0.0-20251005T095339-installers.zip" .
+/bin/sh: 1: zip: Permission denied
+
+    ❌ Failed to create native installer package: Failed to create zip package: Command failed: zip -r "/home/nilfux/ALIENFACEPALM/fitgirl-watcher/releases/fitgirl-watchlist-2.0.0-20251005T095339-native-installers.zip" .
+/bin/sh: 1: zip: Permission denied
+
+    ❌ Failed to create combined package: Failed to create zip package: Command failed: zip -r "/home/nilfux/ALIENFACEPALM/fitgirl-watcher/releases/fitgirl-watchlist-2.0.0-20251005T095339-complete.zip" .
+/bin/sh: 1: zip: Permission denied
+

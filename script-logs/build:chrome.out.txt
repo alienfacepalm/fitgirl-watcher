@@ -1,0 +1,52 @@
+🚀 FitGirl Watchlist Extension Builder
+=====================================
+
+🔨 Building for Chrome...
+🚀 Building FitGirl Watchlist for Chrome/Edge...
+📦 Version: 1.0.2
+📋 Copying files...
+  ✓ manifest.json
+  ✓ background.js
+  ✓ content.js
+  ✓ popup.html
+  ✓ popup.js
+  ✓ popup.css
+  ✓ styles.css
+  ✓ icons/
+🎨 Checking icons...
+⚠️  Missing icons: icon16.png, icon48.png, icon128.png
+📝 Please generate icons using generate-icons.html
+   or create them manually in the icons/ directory
+🔧 Creating placeholder icons...
+  ✓ Created icon16.svg (16x16)
+  ✓ Created icon48.svg (48x48)
+  ✓ Created icon128.svg (128x128)
+⚠️  Note: PNG icons are required for the extension to work properly
+   Please convert the SVG files to PNG or use generate-icons.html
+  ✓ Updated manifest version
+📦 Creating zip package...
+   You can manually zip the contents of the dist/chrome/ directory
+✅ Chrome/Edge build completed successfully!
+📁 Build output: /home/nilfux/ALIENFACEPALM/fitgirl-watcher/dist/chrome
+📦 Package: dist/fitgirl-watchlist-chrome-v1.0.2.zip
+
+🎉 Build Summary
+================
+✅ Successfully built for: Chrome
+⏱️  Total build time: 0.13s
+📁 Output directory: /home/nilfux/ALIENFACEPALM/fitgirl-watcher/dist
+
+📋 Installation Instructions
+============================
+
+🌐 Chrome:
+  1. Open Chrome/Edge and go to chrome://extensions/
+  2. Enable "Developer mode" (toggle in top right)
+  3. Click "Load unpacked" and select the dist/chrome/ folder
+  4. Or install the .zip file from dist/
+
+💡 Tips:
+  - Make sure to generate PNG icons before building
+  - Test the extension on fitgirl-repacks.site pages
+  - Run 'pnpm run installers' to create user-friendly installers
+  - Check the browser console for any errors

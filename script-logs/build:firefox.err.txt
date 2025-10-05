@@ -1,0 +1,3 @@
+⚠️  Failed to create XPI package: Command failed: cd "/home/nilfux/ALIENFACEPALM/fitgirl-watcher/dist/firefox" && zip -r "/home/nilfux/ALIENFACEPALM/fitgirl-watcher/dist/fitgirl-watchlist-firefox-v1.0.2.xpi" .
+/bin/sh: 1: zip: Permission denied
+
