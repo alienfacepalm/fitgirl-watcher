@@ -13,6 +13,27 @@ A browser extension that adds a watchlist feature to FitGirl repacks website, al
 
 ## Installation
 
+### Package Manager
+
+- PNPM is preferred for this repo (faster, disk-efficient). If you don't have it:
+
+  ```bash
+  # Install PNPM (choose one)
+  # Corepack (Node 16.13+):
+  corepack enable && corepack prepare pnpm@latest --activate
+
+  # npm:
+  npm install -g pnpm
+
+  # Homebrew (macOS/Linux):
+  brew install pnpm
+
+  # Curl (official install script):
+  curl -fsSL https://get.pnpm.io/install.sh | sh -
+  ```
+
+  You can still use npm, but commands and lockfile are optimized for pnpm.
+
 ### Easy Installation with Native Installers
 
 The easiest way to install the extension is using the native HTML installers:

@@ -269,4 +269,8 @@ class FitGirlWatchlist {
 }
 
 // Initialize the watchlist when the script loads
+if (typeof module !== "undefined" && module.exports) {
+  module.exports = { FitGirlWatchlist };
+}
+
 new FitGirlWatchlist();

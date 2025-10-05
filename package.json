@@ -26,7 +26,8 @@
     "clean:dist": "node -e \"const fs=require('fs'); if(fs.existsSync('dist')) fs.rmSync('dist', {recursive:true, force:true}); console.log('Cleaned dist/');\"",
     "clean": "npm run clean:dist",
     "clean:all": "node -e \"const fs=require('fs'); ['dist','releases'].forEach(d=>{if(fs.existsSync(d)) {fs.rmSync(d,{recursive:true,force:true}); console.log('Cleaned '+d+'/');}});\"",
-    "test": "echo 'No tests specified'",
+    "test": "jest --passWithNoTests",
+    "test:watch": "jest --watch",
     "lint": "echo 'No linting configured'",
     "icons": "echo 'Open assets/generate-icons.html in your browser to generate required PNG icons'",
     "dev": "npm run build && echo 'Development build complete. Load dist/chrome/ or dist/firefox/ in your browser'"
@@ -53,7 +54,12 @@
   "engines": {
     "node": ">=14.0.0"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "@jest/globals": "^29.7.0",
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0",
+    "mock-fs": "^5.2.0"
+  },
   "dependencies": {},
   "browserslist": [
     "last 3 Chrome versions",

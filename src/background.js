@@ -312,4 +312,8 @@ class WatchlistManager {
 }
 
 // Initialize the watchlist manager
+if (typeof module !== "undefined" && module.exports) {
+  module.exports = { WatchlistManager };
+}
+
 new WatchlistManager();

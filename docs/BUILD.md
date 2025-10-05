@@ -5,22 +5,46 @@ This guide explains how to build the FitGirl Watchlist extension for different b
 ## Quick Start
 
 ```bash
-# Build for all platforms
-npm run build
+# Build for all platforms (pnpm preferred)
+pnpm run build
 
 # Build for specific platform
-npm run build:chrome
-npm run build:firefox
+pnpm run build:chrome
+pnpm run build:firefox
 
 # Clean build directory
+pnpm run clean
+
+# Alternatively, using npm
+npm run build
+npm run build:chrome
+npm run build:firefox
 npm run clean
 ```
 
 ## Prerequisites
 
-1. **Node.js** (v14 or higher)
+1. **Node.js** (v16.13+ recommended)
 2. **Required PNG icons** (see Icon Generation section)
 3. **All source files** in the project directory
+
+### Package Manager
+
+PNPM is preferred for this repository. If you don't have it installed, choose one option:
+
+```bash
+# Corepack (Node 16.13+)
+corepack enable && corepack prepare pnpm@latest --activate
+
+# npm
+npm install -g pnpm
+
+# Homebrew (macOS/Linux)
+brew install pnpm
+
+# Curl (official script)
+curl -fsSL https://get.pnpm.io/install.sh | sh -
+```
 
 ## Build Process
 
@@ -45,7 +69,7 @@ Or manually create these files in the `assets/icons/` directory:
 #### Build for All Platforms
 
 ```bash
-npm run build
+pnpm run build
 # or
 node scripts/build.js
 ```
@@ -53,7 +77,7 @@ node scripts/build.js
 #### Build for Chrome/Edge Only
 
 ```bash
-npm run build:chrome
+pnpm run build:chrome
 # or
 node scripts/build.js chrome
 ```
@@ -61,7 +85,7 @@ node scripts/build.js chrome
 #### Build for Firefox Only
 
 ```bash
-npm run build:firefox
+pnpm run build:firefox
 # or
 node scripts/build.js firefox
 ```
@@ -140,13 +164,13 @@ dist/
 
 | Script                  | Description                       |
 | ----------------------- | --------------------------------- |
-| `npm run build`         | Build for all platforms           |
-| `npm run build:chrome`  | Build for Chrome/Edge only        |
-| `npm run build:firefox` | Build for Firefox only            |
-| `npm run build:all`     | Same as `npm run build`           |
-| `npm run package`       | Build and show package info       |
-| `npm run clean`         | Clean the dist directory          |
-| `npm run icons`         | Show icon generation instructions |
+| `pnpm run build`         | Build for all platforms           |
+| `pnpm run build:chrome`  | Build for Chrome/Edge only        |
+| `pnpm run build:firefox` | Build for Firefox only            |
+| `pnpm run build:all`     | Same as `pnpm run build`          |
+| `pnpm run package`       | Build and show package info       |
+| `pnpm run clean`         | Clean the dist directory          |
+| `pnpm run icons`         | Show icon generation instructions |
 
 ### Build Script Options
 

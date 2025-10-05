@@ -1,5 +1,21 @@
 # Installation Guide
 
+> Developer note: PNPM is the preferred package manager for this project. If you need to build from source or run scripts, install PNPM first using one of the options below:
+
+```bash
+# Corepack (Node 16.13+)
+corepack enable && corepack prepare pnpm@latest --activate
+
+# npm
+npm install -g pnpm
+
+# Homebrew (macOS/Linux)
+brew install pnpm
+
+# Curl (official script)
+curl -fsSL https://get.pnpm.io/install.sh | sh -
+```
+
 ## Quick Start
 
 1. **Download the extension files** to a folder on your computer
