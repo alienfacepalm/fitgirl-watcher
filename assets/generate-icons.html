@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Icon Generator</title>
+  </head>
+  <body>
+    <h1>FitGirl Watchlist Icon Generator</h1>
+    <p>
+      This page will help you generate the required PNG icons for the extension.
+    </p>
+
+    <div>
+      <h2>Instructions:</h2>
+      <ol>
+        <li>Open the SVG file in a browser or image editor</li>
+        <li>Export/save as PNG in the following sizes:</li>
+        <ul>
+          <li>16x16 pixels → save as icon16.png</li>
+          <li>48x48 pixels → save as icon48.png</li>
+          <li>128x128 pixels → save as icon128.png</li>
+        </ul>
+        <li>Place all PNG files in the icons/ directory</li>
+      </ol>
+    </div>
+
+    <div>
+      <h2>Alternative: Use online converter</h2>
+      <p>You can use online SVG to PNG converters like:</p>
+      <ul>
+        <li>
+          <a href="https://convertio.co/svg-png/" target="_blank">Convertio</a>
+        </li>
+        <li>
+          <a href="https://cloudconvert.com/svg-to-png" target="_blank"
+            >CloudConvert</a
+          >
+        </li>
+        <li>
+          <a href="https://www.freeconvert.com/svg-to-png" target="_blank"
+            >FreeConvert</a
+          >
+        </li>
+      </ul>
+    </div>
+
+    <div>
+      <h2>Preview:</h2>
+      <img
+        src="icons/icon.svg"
+        alt="Extension Icon"
+        style="width: 128px; height: 128px"
+      />
+    </div>
+
+    <script>
+      // Simple icon generation using canvas (for basic icons)
+      function generateIcon(size) {
+        const canvas = document.createElement("canvas");
+        canvas.width = size;
+        canvas.height = size;
+        const ctx = canvas.getContext("2d");
+
+        // Create gradient
+        const gradient = ctx.createLinearGradient(0, 0, size, size);
+        gradient.addColorStop(0, "#667eea");
+        gradient.addColorStop(1, "#764ba2");
+
+        // Draw background circle
+        ctx.fillStyle = gradient;
+        ctx.beginPath();
+        ctx.arc(size / 2, size / 2, size / 2 - 2, 0, 2 * Math.PI);
+        ctx.fill();
+
+        // Draw white border
+        ctx.strokeStyle = "#fff";
+        ctx.lineWidth = 2;
+        ctx.stroke();
+
+        // Draw simple game controller
+        const scale = size / 128;
+        ctx.fillStyle = "#fff";
+
+        // Controller body
+        ctx.fillRect(8 * scale, 20 * scale, 48 * scale, 24 * scale);
+
+        // Plus icon
+        ctx.fillStyle = "#28a745";
+        ctx.beginPath();
+        ctx.arc(size - 16, 16, 8 * scale, 0, 2 * Math.PI);
+        ctx.fill();
+
+        ctx.strokeStyle = "#fff";
+        ctx.lineWidth = 2 * scale;
+        ctx.beginPath();
+        ctx.moveTo(size - 16, 12 * scale);
+        ctx.lineTo(size - 16, 20 * scale);
+        ctx.moveTo(size - 20, 16);
+        ctx.lineTo(size - 12, 16);
+        ctx.stroke();
+
+        return canvas;
+      }
+
+      // Generate and download icons
+      function downloadIcon(size, filename) {
+        const canvas = generateIcon(size);
+        const link = document.createElement("a");
+        link.download = filename;
+        link.href = canvas.toDataURL();
+        link.click();
+      }
+
+      // Add download buttons
+      document.addEventListener("DOMContentLoaded", function () {
+        const container = document.createElement("div");
+        container.innerHTML = `
+                <h2>Quick Generate (Basic Icons):</h2>
+                <button onclick="downloadIcon(16, 'icon16.png')">Download 16x16</button>
+                <button onclick="downloadIcon(48, 'icon48.png')">Download 48x48</button>
+                <button onclick="downloadIcon(128, 'icon128.png')">Download 128x128</button>
+            `;
+        document.body.appendChild(container);
+      });
+    </script>
+  </body>
+</html>

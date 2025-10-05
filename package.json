@@ -1,0 +1,63 @@
+{
+  "name": "fitgirl-repacks-watchlist",
+  "version": "1.0.2",
+  "description": "A browser extension to create a watchlist for FitGirl repacks with reminder functionality",
+  "main": "background.js",
+  "scripts": {
+    "build": "node scripts/build.js",
+    "build:chrome": "node scripts/build.js chrome",
+    "build:edge": "node scripts/build.js edge",
+    "build:firefox": "node scripts/build.js firefox",
+    "build:all": "node scripts/build.js all",
+    "package": "npm run build && echo 'Packages created in dist/ directory'",
+    "installers": "node scripts/create-installers.js",
+    "native-installers": "node scripts/create-native-installers.js",
+    "package:installers": "node scripts/package-installers.js",
+    "build:installers": "npm run build && npm run installers",
+    "build:native-installers": "npm run build && npm run native-installers",
+    "build:all:installers": "npm run build && npm run installers && npm run package:installers",
+    "release": "node scripts/create-release.js",
+    "release:patch": "node scripts/create-release.js patch",
+    "release:minor": "node scripts/create-release.js minor",
+    "release:major": "node scripts/create-release.js major",
+    "release:pre": "node scripts/create-release.js prerelease",
+    "enhance-packages": "node scripts/enhance-packages.js",
+    "clean:releases": "node scripts/clean-releases.js",
+    "clean:dist": "node -e \"const fs=require('fs'); if(fs.existsSync('dist')) fs.rmSync('dist', {recursive:true, force:true}); console.log('Cleaned dist/');\"",
+    "clean": "npm run clean:dist",
+    "clean:all": "node -e \"const fs=require('fs'); ['dist','releases'].forEach(d=>{if(fs.existsSync(d)) {fs.rmSync(d,{recursive:true,force:true}); console.log('Cleaned '+d+'/');}});\"",
+    "test": "echo 'No tests specified'",
+    "lint": "echo 'No linting configured'",
+    "icons": "echo 'Open assets/generate-icons.html in your browser to generate required PNG icons'",
+    "dev": "npm run build && echo 'Development build complete. Load dist/chrome/ or dist/firefox/ in your browser'"
+  },
+  "keywords": [
+    "browser-extension",
+    "fitgirl",
+    "repacks",
+    "watchlist",
+    "games",
+    "bookmark",
+    "reminder"
+  ],
+  "author": "AlienFacepalm",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/fitgirl-watchlist-extension.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yourusername/fitgirl-watchlist-extension/issues"
+  },
+  "homepage": "https://github.com/yourusername/fitgirl-watchlist-extension#readme",
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "devDependencies": {},
+  "dependencies": {},
+  "browserslist": [
+    "last 3 Chrome versions",
+    "last 3 Firefox versions",
+    "last 3 Edge versions"
+  ]
+}
