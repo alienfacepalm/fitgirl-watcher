@@ -1,0 +1,259 @@
+/* FitGirl Repacks Watchlist Styles */
+
+/* Top Bar Styles */
+#fitgirl-watchlist-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10000;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.fitgirl-watchlist-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.fitgirl-watchlist-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  color: white;
+}
+
+.fitgirl-watchlist-title {
+  font-size: 18px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.fitgirl-watchlist-controls {
+  display: flex;
+  gap: 12px;
+}
+
+.fitgirl-watchlist-btn {
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+  backdrop-filter: blur(10px);
+}
+
+.fitgirl-watchlist-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: translateY(-1px);
+}
+
+.fitgirl-watchlist-btn:active {
+  transform: translateY(0);
+}
+
+.fitgirl-watchlist-panel {
+  background: rgba(255, 255, 255, 0.95);
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 16px 0;
+  backdrop-filter: blur(10px);
+}
+
+.fitgirl-watchlist-stats {
+  color: #333;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* Watchlist Button Styles */
+.fitgirl-watchlist-button-container {
+  margin: 12px 0;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.fitgirl-watchlist-btn {
+  background: linear-gradient(135deg, #4caf50, #45a049);
+  border: none;
+  color: white;
+  padding: 10px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(76, 175, 80, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.fitgirl-watchlist-btn::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  transition: left 0.5s;
+}
+
+.fitgirl-watchlist-btn:hover::before {
+  left: 100%;
+}
+
+.fitgirl-watchlist-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.4);
+}
+
+.fitgirl-watchlist-btn:active {
+  transform: translateY(0);
+}
+
+.fitgirl-watchlist-btn.in-watchlist {
+  background: linear-gradient(135deg, #ff9800, #f57c00);
+  box-shadow: 0 2px 8px rgba(255, 152, 0, 0.3);
+}
+
+.fitgirl-watchlist-btn.in-watchlist:hover {
+  box-shadow: 0 4px 12px rgba(255, 152, 0, 0.4);
+}
+
+.fitgirl-watchlist-icon {
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+}
+
+.fitgirl-watchlist-text {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* Notification Styles */
+.fitgirl-watchlist-notification {
+  position: fixed;
+  top: 80px;
+  right: 20px;
+  background: #4caf50;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  z-index: 10001;
+  font-size: 14px;
+  font-weight: 500;
+  animation: slideInRight 0.3s ease;
+}
+
+.fitgirl-watchlist-notification.error {
+  background: #f44336;
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .fitgirl-watchlist-container {
+    padding: 0 15px;
+  }
+
+  .fitgirl-watchlist-header {
+    flex-direction: column;
+    gap: 12px;
+    align-items: stretch;
+  }
+
+  .fitgirl-watchlist-controls {
+    justify-content: center;
+  }
+
+  .fitgirl-watchlist-btn {
+    flex: 1;
+    justify-content: center;
+  }
+
+  .fitgirl-watchlist-notification {
+    right: 10px;
+    left: 10px;
+    top: 100px;
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .fitgirl-watchlist-panel {
+    background: rgba(30, 30, 30, 0.95);
+    color: #e0e0e0;
+  }
+
+  .fitgirl-watchlist-stats {
+    color: #e0e0e0;
+  }
+}
+
+/* Animation for button state changes */
+.fitgirl-watchlist-btn {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.fitgirl-watchlist-btn:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.3);
+}
+
+/* Loading state */
+.fitgirl-watchlist-btn.loading {
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+.fitgirl-watchlist-btn.loading .fitgirl-watchlist-icon::after {
+  content: "";
+  width: 12px;
+  height: 12px;
+  border: 2px solid transparent;
+  border-top: 2px solid currentColor;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-left: 8px;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

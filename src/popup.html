@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FitGirl Watchlist</title>
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body>
+    <div class="popup-container">
+      <header class="popup-header">
+        <div class="popup-title">
+          <span class="popup-icon">🎮</span>
+          <h1>FitGirl Watchlist</h1>
+        </div>
+        <div class="popup-stats">
+          <span id="total-items">0 items</span>
+        </div>
+      </header>
+
+      <nav class="popup-nav">
+        <button class="nav-btn active" data-tab="watchlist">Watchlist</button>
+        <button class="nav-btn" data-tab="settings">Settings</button>
+      </nav>
+
+      <main class="popup-content">
+        <!-- Watchlist Tab -->
+        <div id="watchlist-tab" class="tab-content active">
+          <div class="search-container">
+            <input
+              type="text"
+              id="search-input"
+              placeholder="Search your watchlist..."
+            />
+            <button id="clear-search" class="clear-btn">✕</button>
+          </div>
+
+          <div class="filter-container">
+            <select id="sort-select">
+              <option value="dateAdded">Date Added</option>
+              <option value="title">Title</option>
+              <option value="reminderDate">Reminder Date</option>
+            </select>
+            <button id="refresh-btn" class="refresh-btn">🔄</button>
+          </div>
+
+          <div id="watchlist-items" class="watchlist-items">
+            <div class="loading">Loading your watchlist...</div>
+          </div>
+        </div>
+
+        <!-- Settings Tab -->
+        <div id="settings-tab" class="tab-content">
+          <div class="settings-section">
+            <h3>Reminder Settings</h3>
+
+            <div class="setting-item">
+              <label for="reminder-days"
+                >Default reminder interval (days):</label
+              >
+              <input
+                type="number"
+                id="reminder-days"
+                min="1"
+                max="365"
+                value="7"
+              />
+            </div>
+
+            <div class="setting-item">
+              <label for="reminder-time">Reminder time:</label>
+              <input type="time" id="reminder-time" value="09:00" />
+            </div>
+
+            <div class="setting-item">
+              <label class="checkbox-label">
+                <input type="checkbox" id="enable-notifications" checked />
+                <span class="checkmark"></span>
+                Enable desktop notifications
+              </label>
+            </div>
+          </div>
+
+          <div class="settings-section">
+            <h3>Data Management</h3>
+
+            <div class="setting-item">
+              <button id="export-data" class="action-btn">
+                📤 Export Watchlist
+              </button>
+              <button id="import-data" class="action-btn">
+                📥 Import Watchlist
+              </button>
+              <input
+                type="file"
+                id="import-file"
+                accept=".json"
+                style="display: none"
+              />
+            </div>
+
+            <div class="setting-item">
+              <button id="clear-all-data" class="danger-btn">
+                🗑️ Clear All Data
+              </button>
+            </div>
+          </div>
+
+          <div class="settings-section">
+            <h3>About</h3>
+            <div class="about-info">
+              <p>FitGirl Watchlist v1.0.0</p>
+              <p>Keep track of games you want to check out later!</p>
+            </div>
+          </div>
+        </div>
+      </main>
+
+      <footer class="popup-footer">
+        <button id="visit-fitgirl" class="visit-btn">
+          Visit FitGirl Repacks
+        </button>
+      </footer>
+    </div>
+
+    <script src="popup.js"></script>
+  </body>
+</html>

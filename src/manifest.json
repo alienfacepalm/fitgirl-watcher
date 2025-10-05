@@ -1,0 +1,35 @@
+{
+  "manifest_version": 3,
+  "name": "FitGirl Repacks Watchlist",
+  "version": "1.0.0",
+  "description": "Add games from FitGirl repacks to your watchlist with reminders",
+  "permissions": [
+    "storage",
+    "activeTab",
+    "scripting",
+    "notifications",
+    "alarms"
+  ],
+  "host_permissions": ["*://fitgirl-repacks.site/*"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["*://fitgirl-repacks.site/*"],
+      "js": ["content.js"],
+      "css": ["styles.css"],
+      "run_at": "document_end"
+    }
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "FitGirl Watchlist"
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "minimum_chrome_version": "88"
+}
