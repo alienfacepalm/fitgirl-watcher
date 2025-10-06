@@ -8,6 +8,7 @@
 const fs = require("fs");
 const path = require("path");
 const { execSync } = require("child_process");
+const archiver = require("archiver");
 
 class ReleaseCreator {
   constructor() {
@@ -163,33 +164,30 @@ class ReleaseCreator {
   async createReleasePackages(version) {
     console.log("\n📦 Creating release packages...");
 
-    const timestamp = new Date()
-      .toISOString()
-      .slice(0, 19)
-      .replace(/[:-]/g, "");
-    const versionWithTimestamp = `${version}-${timestamp}`;
+    // Use clean version without timestamps
+    const cleanVersion = version;
 
     // Create Chrome package
-    await this.createChromePackage(versionWithTimestamp);
+    await this.createChromePackage(cleanVersion);
 
     // Create Edge package
-    await this.createEdgePackage(versionWithTimestamp);
+    await this.createEdgePackage(cleanVersion);
 
     // Create Safari package
-    await this.createSafariPackage(versionWithTimestamp);
+    await this.createSafariPackage(cleanVersion);
 
     // Create Firefox package
-    await this.createFirefoxPackage(versionWithTimestamp);
+    await this.createFirefoxPackage(cleanVersion);
 
     // Note: Simplified to browser-only releases
     // Removed installer packages and combined package for simplicity
   }
 
-  async createChromePackage(versionWithTimestamp) {
+  async createChromePackage(version) {
     console.log("  🌐 Creating Chrome package...");
 
     const chromeDir = path.join(this.distDir, "chrome");
-    const packageName = `fitgirl-watchlist-${versionWithTimestamp}-chrome.zip`;
+    const packageName = `fitgirl-watchlist-${version}-chrome.zip`;
     const packagePath = path.join(this.releasesDir, packageName);
 
     if (!fs.existsSync(chromeDir)) {
@@ -197,8 +195,7 @@ class ReleaseCreator {
     }
 
     try {
-      this.createZipPackage(chromeDir, packagePath);
-      console.log(`    ✅ Created: ${packageName}`);
+      await this.createZipPackage(chromeDir, packagePath);
     } catch (error) {
       console.error(`    ❌ Failed to create Chrome package: ${error.message}`);
     }
@@ -217,8 +214,7 @@ class ReleaseCreator {
     }
 
     try {
-      this.createZipPackage(edgeDir, packagePath);
-      console.log(`    ✅ Created: ${packageName}`);
+      await this.createZipPackage(edgeDir, packagePath);
     } catch (error) {
       console.error(`    ❌ Failed to create Edge package: ${error.message}`);
     }
@@ -237,8 +233,7 @@ class ReleaseCreator {
     }
 
     try {
-      this.createZipPackage(safariDir, packagePath);
-      console.log(`    ✅ Created: ${packageName}`);
+      await this.createZipPackage(safariDir, packagePath);
     } catch (error) {
       console.error(`    ❌ Failed to create Safari package: ${error.message}`);
     }
@@ -256,8 +251,7 @@ class ReleaseCreator {
     }
 
     try {
-      this.createZipPackage(firefoxDir, packagePath);
-      console.log(`    ✅ Created: ${packageName}`);
+      await this.createZipPackage(firefoxDir, packagePath);
     } catch (error) {
       console.error(
         `    ❌ Failed to create Firefox package: ${error.message}`
@@ -734,30 +728,46 @@ ${this.getChangelogContent(bumpType)}
   }
 
   createZipPackage(sourceDir, outputPath) {
-    try {
-      // Use PowerShell's Compress-Archive on Windows
-      if (process.platform === "win32") {
-        const command = `powershell -Command "Compress-Archive -Path '${sourceDir}\\*' -DestinationPath '${outputPath}' -Force"`;
-        execSync(command, { stdio: "pipe" });
-      } else {
-        // Use tar command on Unix-like systems (fallback to zip if available)
-        try {
-          execSync("command -v zip", { stdio: "pipe", shell: "/bin/bash" });
-          const command = `zip -r "${outputPath}" .`;
-          execSync(command, { cwd: sourceDir, stdio: "pipe" });
-        } catch (zipError) {
-          // Fallback to tar if zip is not available
-          const tarPath = outputPath.replace(/\.zip$/, '.tar.gz');
-          const command = `tar -czf "${tarPath}" .`;
-          execSync(command, { cwd: sourceDir, stdio: "pipe" });
-          // Rename the file to have .zip extension for consistency
-          const fs = require('fs');
-          fs.renameSync(tarPath, outputPath);
-        }
+    return new Promise((resolve, reject) => {
+      try {
+        // Create a file to stream archive data to
+        const output = fs.createWriteStream(outputPath);
+        const archive = archiver('zip', {
+          zlib: { level: 9 } // Maximum compression
+        });
+
+        // Listen for all archive data to be written
+        output.on('close', () => {
+          console.log(`    ✅ Created ${path.basename(outputPath)} (${archive.pointer()} bytes)`);
+          resolve();
+        });
+
+        // Catch warnings (e.g. stat failures and other non-blocking errors)
+        archive.on('warning', (err) => {
+          if (err.code === 'ENOENT') {
+            console.warn(`    ⚠️  Warning: ${err.message}`);
+          } else {
+            reject(err);
+          }
+        });
+
+        // Catch errors
+        archive.on('error', (err) => {
+          reject(err);
+        });
+
+        // Pipe archive data to the file
+        archive.pipe(output);
+
+        // Add all files from sourceDir to the archive
+        archive.directory(sourceDir, false);
+
+        // Finalize the archive
+        archive.finalize();
+      } catch (error) {
+        reject(new Error(`Failed to create zip package: ${error.message}`));
       }
-    } catch (error) {
-      throw new Error(`Failed to create zip package: ${error.message}`);
-    }
+    });
   }
 
   ensureZipAvailable() {

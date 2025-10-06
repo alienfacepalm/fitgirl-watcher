@@ -1,7 +1,7 @@
-# Release Notes - FitGirl Repacks Watchlist v2.0.3
+# Release Notes - FitGirl Repacks Watchlist v2.0.4
 
 **Release Date:** 2025-10-06  
-**Previous Version:** 2.0.2  
+**Previous Version:** 2.0.3  
 **Version Bump:** patch
 
 ## 🎉 What's New
@@ -18,10 +18,10 @@ This release includes bug fixes and minor improvements:
 
 **Simply download the file for your browser:**
 
-- **Chrome**: `fitgirl-watchlist-2.0.3-<TIMESTAMP>-chrome.zip`
-- **Edge**: `fitgirl-watchlist-2.0.3-<TIMESTAMP>-edge.zip`
-- **Safari**: `fitgirl-watchlist-2.0.3-<TIMESTAMP>-safari.zip`
-- **Firefox**: `fitgirl-watchlist-2.0.3-<TIMESTAMP>-firefox.xpi`
+- **Chrome**: `fitgirl-watchlist-2.0.4-<TIMESTAMP>-chrome.zip`
+- **Edge**: `fitgirl-watchlist-2.0.4-<TIMESTAMP>-edge.zip`
+- **Safari**: `fitgirl-watchlist-2.0.4-<TIMESTAMP>-safari.zip`
+- **Firefox**: `fitgirl-watchlist-2.0.4-<TIMESTAMP>-firefox.xpi`
 
 ## 🐛 Bug Fixes
 
