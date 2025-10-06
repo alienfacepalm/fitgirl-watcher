@@ -670,9 +670,20 @@ ${this.getChangelogContent(bumpType)}
         const command = `powershell -Command "Compress-Archive -Path '${sourceDir}\\*' -DestinationPath '${outputPath}' -Force"`;
         execSync(command, { stdio: "pipe" });
       } else {
-        // Use zip command on Unix-like systems
-        const command = `zip -r "${outputPath}" .`;
-        execSync(command, { cwd: sourceDir, stdio: "pipe" });
+        // Use tar command on Unix-like systems (fallback to zip if available)
+        try {
+          execSync("command -v zip", { stdio: "pipe", shell: "/bin/bash" });
+          const command = `zip -r "${outputPath}" .`;
+          execSync(command, { cwd: sourceDir, stdio: "pipe" });
+        } catch (zipError) {
+          // Fallback to tar if zip is not available
+          const tarPath = outputPath.replace(/\.zip$/, '.tar.gz');
+          const command = `tar -czf "${tarPath}" .`;
+          execSync(command, { cwd: sourceDir, stdio: "pipe" });
+          // Rename the file to have .zip extension for consistency
+          const fs = require('fs');
+          fs.renameSync(tarPath, outputPath);
+        }
       }
     } catch (error) {
       throw new Error(`Failed to create zip package: ${error.message}`);
@@ -684,9 +695,15 @@ ${this.getChangelogContent(bumpType)}
     try {
       execSync("command -v zip", { stdio: "pipe", shell: "/bin/bash" });
     } catch (e) {
-      throw new Error(
-        "'zip' is required. Install it with: sudo apt update && sudo apt install -y zip"
-      );
+      // Fallback to tar if zip is not available
+      try {
+        execSync("command -v tar", { stdio: "pipe", shell: "/bin/bash" });
+        console.log("Using tar as fallback for compression");
+      } catch (tarError) {
+        throw new Error(
+          "'zip' or 'tar' is required. Install zip with: sudo apt update && sudo apt install -y zip"
+        );
+      }
     }
   }
 
