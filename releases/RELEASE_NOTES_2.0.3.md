@@ -1,7 +1,7 @@
-# Release Notes - FitGirl Repacks Watchlist v2.0.1
+# Release Notes - FitGirl Repacks Watchlist v2.0.3
 
 **Release Date:** 2025-10-06  
-**Previous Version:** 2.0.0-pre.20251006T034443  
+**Previous Version:** 2.0.2  
 **Version Bump:** patch
 
 ## 🎉 What's New
@@ -16,16 +16,12 @@ This release includes bug fixes and minor improvements:
 
 ## 📥 Which file should I download?
 
-- Recommended: `fitgirl-watchlist-2.0.1-<TIMESTAMP>-native-installers.zip`
-  - Double-click HTML installer (Chrome/Edge or Firefox) and follow prompts
-- Script-based: `fitgirl-watchlist-2.0.1-<TIMESTAMP>-installers.zip`
-  - Run the installer for your OS (`.bat`, `.ps1`, or `.sh`)
-- Chrome manual: `fitgirl-watchlist-2.0.1-<TIMESTAMP>-chrome.zip`
-  - Use chrome://extensions → Developer mode → Load unpacked → `chrome/`
-- Firefox manual: `fitgirl-watchlist-2.0.1-<TIMESTAMP>-firefox.xpi`
-  - Use about:debugging → This Firefox → Load Temporary Add-on → pick `manifest.json`
-- Everything: `fitgirl-watchlist-2.0.1-<TIMESTAMP>-complete.zip`
-  - Contains all of the above
+**Simply download the file for your browser:**
+
+- **Chrome**: `fitgirl-watchlist-2.0.3-<TIMESTAMP>-chrome.zip`
+- **Edge**: `fitgirl-watchlist-2.0.3-<TIMESTAMP>-edge.zip`
+- **Safari**: `fitgirl-watchlist-2.0.3-<TIMESTAMP>-safari.zip`
+- **Firefox**: `fitgirl-watchlist-2.0.3-<TIMESTAMP>-firefox.xpi`
 
 ## 🐛 Bug Fixes
 
@@ -44,15 +40,26 @@ This release includes bug fixes and minor improvements:
 
 ## 📦 Installation
 
-### Quick Install (Recommended)
-1. Download the appropriate installer package
+### Chrome/Edge
+1. Download the `.zip` file for your browser
 2. Extract the files
-3. Double-click the HTML installer for your browser
-4. Follow the on-screen instructions
+3. Go to `chrome://extensions/` (Chrome) or `edge://extensions/` (Edge)
+4. Enable "Developer mode"
+5. Click "Load unpacked" and select the extracted folder
 
-### Manual Install
-1. Download the extension package for your browser
-2. Follow the detailed instructions in the README.md file
+### Safari
+1. Download the `.zip` file for Safari
+2. Extract the files
+3. Open Safari → Preferences → Advanced
+4. Check "Show Develop menu in menu bar"
+5. Go to Develop → Show Extension Builder
+6. Click "+" and select the extracted folder
+
+### Firefox
+1. Download the `.xpi` file
+2. Go to `about:debugging`
+3. Click "This Firefox" → "Load Temporary Add-on"
+4. Select the `.xpi` file
 
 ## 🔄 Migration from Previous Version
 
