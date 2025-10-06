@@ -1,7 +1,7 @@
-# Release Notes - FitGirl Repacks Watchlist v2.0.NaN-pre.20251006T032942
+# Release Notes - FitGirl Repacks Watchlist v2.0.0-pre.20251006T034443
 
 **Release Date:** 2025-10-06  
-**Previous Version:** 2.0.NaN-pre.20251006T032907  
+**Previous Version:** 2.0.0-pre.20251006T032942  
 **Version Bump:** prerelease
 
 ## 🎉 What's New
@@ -16,15 +16,15 @@ This is a pre-release version for testing:
 
 ## 📥 Which file should I download?
 
-- Recommended: `fitgirl-watchlist-2.0.NaN-pre.20251006T032942-<TIMESTAMP>-native-installers.zip`
+- Recommended: `fitgirl-watchlist-2.0.0-pre.20251006T034443-<TIMESTAMP>-native-installers.zip`
   - Double-click HTML installer (Chrome/Edge or Firefox) and follow prompts
-- Script-based: `fitgirl-watchlist-2.0.NaN-pre.20251006T032942-<TIMESTAMP>-installers.zip`
+- Script-based: `fitgirl-watchlist-2.0.0-pre.20251006T034443-<TIMESTAMP>-installers.zip`
   - Run the installer for your OS (`.bat`, `.ps1`, or `.sh`)
-- Chrome manual: `fitgirl-watchlist-2.0.NaN-pre.20251006T032942-<TIMESTAMP>-chrome.zip`
+- Chrome manual: `fitgirl-watchlist-2.0.0-pre.20251006T034443-<TIMESTAMP>-chrome.zip`
   - Use chrome://extensions → Developer mode → Load unpacked → `chrome/`
-- Firefox manual: `fitgirl-watchlist-2.0.NaN-pre.20251006T032942-<TIMESTAMP>-firefox.xpi`
+- Firefox manual: `fitgirl-watchlist-2.0.0-pre.20251006T034443-<TIMESTAMP>-firefox.xpi`
   - Use about:debugging → This Firefox → Load Temporary Add-on → pick `manifest.json`
-- Everything: `fitgirl-watchlist-2.0.NaN-pre.20251006T032942-<TIMESTAMP>-complete.zip`
+- Everything: `fitgirl-watchlist-2.0.0-pre.20251006T034443-<TIMESTAMP>-complete.zip`
   - Contains all of the above
 
 ## 🐛 Bug Fixes

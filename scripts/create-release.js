@@ -90,7 +90,9 @@ class ReleaseCreator {
   }
 
   bumpVersion(currentVersion, bumpType) {
-    const [major, minor, patch] = currentVersion.split(".").map(Number);
+    // Handle prerelease versions by extracting the base version
+    const baseVersion = currentVersion.split("-")[0];
+    const [major, minor, patch] = baseVersion.split(".").map(Number);
     const timestamp = new Date()
       .toISOString()
       .slice(0, 19)

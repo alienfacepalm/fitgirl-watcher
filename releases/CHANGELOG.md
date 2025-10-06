@@ -6,7 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
-## [2.0.NaN-pre.20251006T032942] - 2025-10-06
+## [2.0.0-pre.20251006T034443] - 2025-10-06
 
 ### Changed
 - Testing new installation system
