@@ -5,6 +5,7 @@ const path = require("path");
 const ChromeBuilder = require("./build-chrome");
 const EdgeBuilder = require("./build-edge");
 const FirefoxBuilder = require("./build-firefox");
+const SafariBuilder = require("./build-safari");
 
 class UniversalBuilder {
   constructor() {
@@ -44,6 +45,13 @@ class UniversalBuilder {
         const firefoxBuilder = new FirefoxBuilder();
         await firefoxBuilder.build();
         results.push("Firefox");
+      }
+
+      if (platform === "all" || platform === "safari") {
+        console.log("\n🔨 Building for Safari...");
+        const safariBuilder = new SafariBuilder();
+        await safariBuilder.build();
+        results.push("Safari");
       }
 
       const endTime = Date.now();
@@ -95,6 +103,16 @@ class UniversalBuilder {
       console.log("  5. Or install the .xpi file from dist/");
     }
 
+    if (platforms.includes("Safari")) {
+      console.log("\n🦁 Safari:");
+      console.log("  1. Open Safari and go to Safari > Preferences > Advanced");
+      console.log('  2. Check "Show Develop menu in menu bar"');
+      console.log("  3. Go to Develop > Show Extension Builder");
+      console.log('  4. Click "+" and select "Add Extension..."');
+      console.log("  5. Select the dist/safari/ folder");
+      console.log("  6. Or install the .zip file from dist/");
+    }
+
     console.log("\n💡 Tips:");
     console.log("  - Make sure to generate PNG icons before building");
     console.log("  - Test the extension on fitgirl-repacks.site pages");
@@ -113,7 +131,8 @@ class UniversalBuilder {
     console.log("  all      Build for all platforms (default)");
     console.log("  chrome   Build for Chrome only");
     console.log("  edge     Build for Microsoft Edge only");
-    console.log("  firefox  Build for Firefox only\n");
+    console.log("  firefox  Build for Firefox only");
+    console.log("  safari   Build for Safari only\n");
     console.log("Examples:");
     console.log("  node build.js");
     console.log("  node build.js chrome");
@@ -132,9 +151,9 @@ if (require.main === module) {
     process.exit(0);
   }
 
-  if (!["all", "chrome", "edge", "firefox"].includes(platform)) {
+  if (!["all", "chrome", "edge", "firefox", "safari"].includes(platform)) {
     console.error(`❌ Invalid platform: ${platform}`);
-    console.error("Valid platforms: all, chrome, edge, firefox");
+    console.error("Valid platforms: all, chrome, edge, firefox, safari");
     console.error("Use --help for more information");
     process.exit(1);
   }

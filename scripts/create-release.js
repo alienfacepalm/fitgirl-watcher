@@ -172,6 +172,12 @@ class ReleaseCreator {
     // Create Chrome package
     await this.createChromePackage(versionWithTimestamp);
 
+    // Create Edge package
+    await this.createEdgePackage(versionWithTimestamp);
+
+    // Create Safari package
+    await this.createSafariPackage(versionWithTimestamp);
+
     // Create Firefox package
     await this.createFirefoxPackage(versionWithTimestamp);
 
@@ -201,6 +207,46 @@ class ReleaseCreator {
       console.log(`    ✅ Created: ${packageName}`);
     } catch (error) {
       console.error(`    ❌ Failed to create Chrome package: ${error.message}`);
+    }
+  }
+
+  async createEdgePackage(versionWithTimestamp) {
+    console.log("  🌐 Creating Edge package...");
+
+    const edgeDir = path.join(this.distDir, "edge");
+    const packageName = `fitgirl-watchlist-${versionWithTimestamp}-edge.zip`;
+    const packagePath = path.join(this.releasesDir, packageName);
+
+    if (!fs.existsSync(edgeDir)) {
+      console.log("    ⚠️  Edge build not found, skipping...");
+      return;
+    }
+
+    try {
+      this.createZipPackage(edgeDir, packagePath);
+      console.log(`    ✅ Created: ${packageName}`);
+    } catch (error) {
+      console.error(`    ❌ Failed to create Edge package: ${error.message}`);
+    }
+  }
+
+  async createSafariPackage(versionWithTimestamp) {
+    console.log("  🦁 Creating Safari package...");
+
+    const safariDir = path.join(this.distDir, "safari");
+    const packageName = `fitgirl-watchlist-${versionWithTimestamp}-safari.zip`;
+    const packagePath = path.join(this.releasesDir, packageName);
+
+    if (!fs.existsSync(safariDir)) {
+      console.log("    ⚠️  Safari build not found, skipping...");
+      return;
+    }
+
+    try {
+      this.createZipPackage(safariDir, packagePath);
+      console.log(`    ✅ Created: ${packageName}`);
+    } catch (error) {
+      console.error(`    ❌ Failed to create Safari package: ${error.message}`);
     }
   }
 
@@ -287,6 +333,14 @@ class ReleaseCreator {
         path.join(combinedDir, "chrome")
       );
       this.copyDir(
+        path.join(this.distDir, "edge"),
+        path.join(combinedDir, "edge")
+      );
+      this.copyDir(
+        path.join(this.distDir, "safari"),
+        path.join(combinedDir, "safari")
+      );
+      this.copyDir(
         path.join(this.distDir, "firefox"),
         path.join(combinedDir, "firefox")
       );
@@ -330,7 +384,9 @@ class ReleaseCreator {
 This complete release package contains everything you need to install and use the FitGirl Repacks Watchlist extension:
 
 ### 🌐 Browser Extensions
-- **chrome/** - Chrome/Edge extension files
+- **chrome/** - Chrome extension files
+- **edge/** - Microsoft Edge extension files
+- **safari/** - Safari extension files
 - **firefox/** - Firefox extension files
 
 ### 🛠️ Installation Tools
@@ -351,15 +407,23 @@ This complete release package contains everything you need to install and use th
 - Best for: Users who prefer script-based installers (.bat/.ps1/.sh) per OS
 - Why: Works offline with platform-native scripts; still straightforward
 
-3) ${this.config.extensionName} – Chrome/Edge ZIP
+3) ${this.config.extensionName} – Chrome ZIP
 - File: fitgirl-watchlist-{version}-{timestamp}-chrome.zip
 - Best for: Manual install via chrome://extensions (Developer mode → Load unpacked)
 
-4) ${this.config.extensionName} – Firefox XPI
+4) ${this.config.extensionName} – Edge ZIP
+- File: fitgirl-watchlist-{version}-{timestamp}-edge.zip
+- Best for: Manual install via edge://extensions (Developer mode → Load unpacked)
+
+5) ${this.config.extensionName} – Safari ZIP
+- File: fitgirl-watchlist-{version}-{timestamp}-safari.zip
+- Best for: Manual install via Safari Extension Builder
+
+6) ${this.config.extensionName} – Firefox XPI
 - File: fitgirl-watchlist-{version}-{timestamp}-firefox.xpi
 - Best for: Temporary load via about:debugging → Load Temporary Add-on
 
-5) ${this.config.extensionName} – Complete ZIP
+7) ${this.config.extensionName} – Complete ZIP
 - File: fitgirl-watchlist-{version}-{timestamp}-complete.zip
 - Best for: Power users who want everything in one archive
 
@@ -377,8 +441,10 @@ This complete release package contains everything you need to install and use th
    - **macOS/Linux**: Run \`.sh\` files in terminal
 
 ### Option 3: Manual Installation
-1. **Chrome/Edge**: Go to \`chrome://extensions/\`, enable Developer mode, click "Load unpacked", select \`chrome/\` folder
-2. **Firefox**: Go to \`about:debugging\`, click "This Firefox", click "Load Temporary Add-on", select \`firefox/manifest.json\`
+1. **Chrome**: Go to \`chrome://extensions/\`, enable Developer mode, click "Load unpacked", select \`chrome/\` folder
+2. **Edge**: Go to \`edge://extensions/\`, enable Developer mode, click "Load unpacked", select \`edge/\` folder
+3. **Safari**: Go to Safari > Preferences > Advanced, enable "Show Develop menu", then Develop > Show Extension Builder, click "+" and select \`safari/\` folder
+4. **Firefox**: Go to \`about:debugging\`, click "This Firefox", click "Load Temporary Add-on", select \`firefox/manifest.json\`
 
 ## 🎮 Features
 
@@ -393,6 +459,7 @@ This complete release package contains everything you need to install and use th
 
 - **Chrome**: Version 88 or higher
 - **Edge**: Version 88 or higher
+- **Safari**: Version 14 or higher (macOS 11+)
 - **Firefox**: Version 78 or higher
 - **Website**: fitgirl-repacks.site
 
