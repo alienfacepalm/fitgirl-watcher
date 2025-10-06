@@ -2,7 +2,55 @@
 
 A browser extension that adds a watchlist feature to FitGirl repacks website, allowing you to bookmark games and set reminders to check them out later.
 
-## Features
+---
+
+## 🎯 **WANT TO INSTALL? CLICK BELOW!** 🎯
+
+**[⬇️ DOWNLOAD NOW ⬇️](https://github.com/alienfacepalm/fitgirl-watcher/releases/latest)**
+
+*Pick your browser and follow the 3 simple steps below!*
+
+---
+
+## 🚀 Quick Start (For Users)
+
+### 1. Download
+**👉 [CLICK HERE TO DOWNLOAD](https://github.com/alienfacepalm/fitgirl-watcher/releases/latest) 👈**
+
+Then pick your browser:
+- **🟢 [Chrome Download](https://github.com/alienfacepalm/fitgirl-watcher/releases/latest/download/fitgirl-watchlist-*-chrome.zip)** - `fitgirl-watchlist-*-chrome.zip`
+- **🔵 [Edge Download](https://github.com/alienfacepalm/fitgirl-watcher/releases/latest/download/fitgirl-watchlist-*-edge.zip)** - `fitgirl-watchlist-*-edge.zip`
+- **🦁 [Safari Download](https://github.com/alienfacepalm/fitgirl-watcher/releases/latest/download/fitgirl-watchlist-*-safari.zip)** - `fitgirl-watchlist-*-safari.zip`
+- **🦊 [Firefox Download](https://github.com/alienfacepalm/fitgirl-watcher/releases/latest/download/fitgirl-watchlist-*-firefox.xpi)** - `fitgirl-watchlist-*-firefox.xpi`
+
+### 2. Install
+
+**🟢 Chrome/Edge:**
+1. **Extract the ZIP file** (double-click it)
+2. **Click here:** [chrome://extensions/](chrome://extensions/) (Chrome) or [edge://extensions/](edge://extensions/) (Edge)
+3. **Toggle "Developer mode"** (top-right corner)
+4. **Click "Load unpacked"** and select the extracted folder
+
+**🦁 Safari:**
+1. **Extract the ZIP file** (double-click it)
+2. **Open Safari** → **Preferences** → **Advanced**
+3. **Check "Show Develop menu in menu bar"**
+4. **Go to Develop** → **Show Extension Builder**
+5. **Click "+"** and select the extracted folder
+
+**🦊 Firefox:**
+1. **Click here:** [about:debugging](about:debugging)
+2. **Click "This Firefox"** → **"Load Temporary Add-on"**
+3. **Select the .xpi file** you downloaded
+
+### 3. Use
+**🎮 [CLICK HERE TO START USING THE EXTENSION](https://fitgirl-repacks.site) 🎮**
+
+Visit the FitGirl website and start adding games to your watchlist!
+
+---
+
+## ✨ Features
 
 - 🎮 **Easy Watchlist Management**: Add games to your watchlist with a single click
 - ⏰ **Smart Reminders**: Set custom reminder intervals (default: 7 days)
@@ -10,6 +58,10 @@ A browser extension that adds a watchlist feature to FitGirl repacks website, al
 - 📱 **Modern UI**: Clean, responsive interface that works on all devices
 - 💾 **Data Export/Import**: Backup and restore your watchlist data
 - 🎯 **Smart Detection**: Automatically detects game items on FitGirl pages
+
+---
+
+# 👨‍💻 For Developers
 
 ## Installation
 
