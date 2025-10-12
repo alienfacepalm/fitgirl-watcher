@@ -167,6 +167,9 @@ class ReleaseCreator {
     // Create Chrome package
     await this.createChromePackage(versionWithTimestamp);
 
+    // Create Edge package
+    await this.createEdgePackage(versionWithTimestamp);
+
     // Create Firefox package
     await this.createFirefoxPackage(versionWithTimestamp);
 
@@ -196,6 +199,25 @@ class ReleaseCreator {
       console.log(`    ✅ Created: ${packageName}`);
     } catch (error) {
       console.error(`    ❌ Failed to create Chrome package: ${error.message}`);
+    }
+  }
+
+  async createEdgePackage(versionWithTimestamp) {
+    console.log("  🟦 Creating Edge package...");
+
+    const edgeDir = path.join(this.distDir, "edge");
+    const packageName = `fitgirl-watchlist-${versionWithTimestamp}-edge.zip`;
+    const packagePath = path.join(this.releasesDir, packageName);
+
+    if (!fs.existsSync(edgeDir)) {
+      throw new Error("Edge build not found");
+    }
+
+    try {
+      this.createZipPackage(edgeDir, packagePath);
+      console.log(`    ✅ Created: ${packageName}`);
+    } catch (error) {
+      console.error(`    ❌ Failed to create Edge package: ${error.message}`);
     }
   }
 

@@ -1,6 +1,6 @@
 {
   "name": "fitgirl-repacks-watchlist",
-  "version": "1.0.3",
+  "version": "1.0.5",
   "description": "A browser extension to create a watchlist for FitGirl repacks with reminder functionality",
   "main": "background.js",
   "scripts": {
@@ -29,7 +29,7 @@
     "test": "echo 'No tests specified'",
     "lint": "echo 'No linting configured'",
     "icons": "echo 'Open assets/generate-icons.html in your browser to generate required PNG icons'",
-    "icons:create": "node scripts/resize-fitgirl-icon.js",
+    "icons:create": "node scripts/resize-image-native.js",
     "fetch-logo": "node scripts/fetch-logo.js",
     "dev": "npm run build && echo 'Development build complete. Load dist/chrome/ or dist/firefox/ in your browser'"
   },
