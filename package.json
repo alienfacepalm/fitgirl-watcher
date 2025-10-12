@@ -1,6 +1,6 @@
 {
   "name": "fitgirl-repacks-watchlist",
-  "version": "1.0.8",
+  "version": "1.1.0",
   "description": "A browser extension to create a watchlist for FitGirl repacks with reminder functionality",
   "main": "background.js",
   "scripts": {
