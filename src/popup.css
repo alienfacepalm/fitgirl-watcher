@@ -14,8 +14,8 @@ body {
 }
 
 .popup-container {
-  width: 400px;
-  min-height: 500px;
+  width: 600px;
+  min-height: 600px;
   background: white;
   border-radius: 8px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
@@ -24,7 +24,7 @@ body {
 
 /* Header */
 .popup-header {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #ff1744 0%, #f50057 100%);
   color: white;
   padding: 20px;
   display: flex;
@@ -78,8 +78,8 @@ body {
 }
 
 .nav-btn.active {
-  color: #667eea;
-  border-bottom-color: #667eea;
+  color: #ff1744;
+  border-bottom-color: #ff1744;
   background: white;
 }
 
@@ -114,7 +114,7 @@ body {
 
 #search-input:focus {
   outline: none;
-  border-color: #667eea;
+  border-color: #ff1744;
   background: white;
 }
 
@@ -211,12 +211,12 @@ body {
 }
 
 .visit-btn-small {
-  background: #667eea;
+  background: #ff1744;
   color: white;
 }
 
 .visit-btn-small:hover {
-  background: #5a6fd8;
+  background: #e91538;
 }
 
 .remove-btn-small {
@@ -236,7 +236,7 @@ body {
 }
 
 .item-url {
-  color: #667eea;
+  color: #ff1744;
   text-decoration: none;
   font-size: 12px;
   word-break: break-all;
@@ -281,7 +281,7 @@ body {
 
 .setting-item input:focus {
   outline: none;
-  border-color: #667eea;
+  border-color: #ff1744;
 }
 
 /* Checkbox */
@@ -307,8 +307,8 @@ body {
 }
 
 .checkbox-label input[type="checkbox"]:checked + .checkmark {
-  background: #667eea;
-  border-color: #667eea;
+  background: #ff1744;
+  border-color: #ff1744;
 }
 
 .checkbox-label input[type="checkbox"]:checked + .checkmark::after {
@@ -324,7 +324,7 @@ body {
 
 /* Action Buttons */
 .action-btn {
-  background: #667eea;
+  background: #ff1744;
   color: white;
   border: none;
   padding: 10px 16px;
@@ -338,7 +338,7 @@ body {
 }
 
 .action-btn:hover {
-  background: #5a6fd8;
+  background: #e91538;
   transform: translateY(-1px);
 }
 
