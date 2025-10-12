@@ -257,3 +257,52 @@
     transform: rotate(360deg);
   }
 }
+
+/* Welcome Toast Styles */
+.fitgirl-watchlist-toast {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%) translateY(150%);
+  z-index: 10002;
+  background: linear-gradient(135deg, #ff1744 0%, #f50057 100%);
+  color: white;
+  padding: 20px 40px;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(255, 23, 68, 0.5);
+  font-size: 18px;
+  font-weight: 600;
+  text-align: center;
+  max-width: 600px;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.fitgirl-watchlist-toast.show {
+  transform: translateX(-50%) translateY(0);
+}
+
+.fitgirl-watchlist-toast:hover {
+  box-shadow: 0 10px 30px rgba(255, 23, 68, 0.6);
+  transform: translateX(-50%) translateY(-2px);
+}
+
+@media (max-width: 768px) {
+  .fitgirl-watchlist-toast {
+    left: 20px;
+    right: 20px;
+    max-width: calc(100% - 40px);
+    transform: translateX(0) translateY(150%);
+    font-size: 16px;
+    padding: 16px 24px;
+  }
+
+  .fitgirl-watchlist-toast.show {
+    transform: translateX(0) translateY(0);
+  }
+
+  .fitgirl-watchlist-toast:hover {
+    transform: translateX(0) translateY(-2px);
+  }
+}

@@ -35,16 +35,6 @@ class PopupManager {
       this.filterItems("");
     });
 
-    // Sort functionality
-    document.getElementById("sort-select").addEventListener("change", (e) => {
-      this.sortItems(e.target.value);
-    });
-
-    // Refresh button
-    document.getElementById("refresh-btn").addEventListener("click", () => {
-      this.loadWatchlistItems();
-    });
-
     // Settings
     document.getElementById("reminder-days").addEventListener("change", (e) => {
       this.saveSettings();

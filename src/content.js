@@ -17,14 +17,56 @@ class FitGirlWatchlist {
   }
 
   async setupWatchlist() {
+    // Show welcome notice
+    this.showWelcomeNotice();
+
     // Load existing watchlist items
     await this.loadWatchlistItems();
 
     // Add watchlist buttons to game items
     this.addWatchlistButtons();
+  }
 
-    // Add top bar
-    this.addTopBar();
+  showWelcomeNotice() {
+    // Check if we've shown the notice recently (within the last hour)
+    const lastShown = localStorage.getItem("fitgirl-watchlist-notice-shown");
+    const now = Date.now();
+    const oneHourMs = 60 * 60 * 1000;
+
+    if (lastShown && now - parseInt(lastShown) < oneHourMs) {
+      return; // Don't show if shown within the last hour
+    }
+
+    // Create welcome notice
+    const notice = document.createElement("div");
+    notice.className = "fitgirl-watchlist-toast";
+    notice.innerHTML = `
+      🎮 FitGirl Watchlist Active! Click the extension icon to view your watchlist.
+    `;
+
+    document.body.appendChild(notice);
+
+    // Animate in
+    setTimeout(() => notice.classList.add("show"), 100);
+
+    // Auto-dismiss after 5 seconds
+    const autoDismiss = setTimeout(() => {
+      this.dismissWelcomeNotice(notice);
+    }, 5000);
+
+    // Manual dismiss on click
+    notice.addEventListener("click", () => {
+      clearTimeout(autoDismiss);
+      this.dismissWelcomeNotice(notice);
+    });
+
+    // Remember we showed it
+    localStorage.setItem("fitgirl-watchlist-notice-shown", now.toString());
+  }
+
+  dismissWelcomeNotice(notice) {
+    notice.classList.remove("show");
+    setTimeout(() => notice.remove(), 300);
   }
 
   async loadWatchlistItems() {
@@ -36,56 +78,6 @@ class FitGirlWatchlist {
     } catch (error) {
       console.error("Error loading watchlist items:", error);
     }
-  }
-
-  addTopBar() {
-    // Create top bar
-    const topBar = document.createElement("div");
-    topBar.id = "fitgirl-watchlist-bar";
-    topBar.innerHTML = `
-      <div class="fitgirl-watchlist-container">
-        <div class="fitgirl-watchlist-header">
-          <span class="fitgirl-watchlist-title">🎮 FitGirl Watchlist</span>
-          <div class="fitgirl-watchlist-controls">
-            <button id="fitgirl-watchlist-toggle" class="fitgirl-watchlist-btn">
-              <span class="fitgirl-watchlist-icon">👁️</span>
-              Toggle Watchlist
-            </button>
-            <button id="fitgirl-watchlist-settings" class="fitgirl-watchlist-btn">
-              <span class="fitgirl-watchlist-icon">⚙️</span>
-              Settings
-            </button>
-          </div>
-        </div>
-        <div id="fitgirl-watchlist-panel" class="fitgirl-watchlist-panel" style="display: none;">
-          <div class="fitgirl-watchlist-stats">
-            <span id="fitgirl-watchlist-count">0 items in watchlist</span>
-          </div>
-        </div>
-      </div>
-    `;
-
-    // Insert at the top of the page
-    document.body.insertBefore(topBar, document.body.firstChild);
-
-    // Add event listeners
-    this.addTopBarEventListeners();
-  }
-
-  addTopBarEventListeners() {
-    const toggleBtn = document.getElementById("fitgirl-watchlist-toggle");
-    const settingsBtn = document.getElementById("fitgirl-watchlist-settings");
-    const panel = document.getElementById("fitgirl-watchlist-panel");
-
-    toggleBtn?.addEventListener("click", () => {
-      const isVisible = panel.style.display !== "none";
-      panel.style.display = isVisible ? "none" : "block";
-      this.updateWatchlistPanel();
-    });
-
-    settingsBtn?.addEventListener("click", () => {
-      chrome.runtime.sendMessage({ action: "openSettings" });
-    });
   }
 
   addWatchlistButtons() {
@@ -167,27 +159,92 @@ class FitGirlWatchlist {
   }
 
   extractGameInfo(item) {
-    // Priority order for finding the correct game link:
-    // FitGirl uses WordPress, so look for permalink in title
-    let linkElement =
-      item.querySelector('h2.entry-title a[rel="bookmark"]') ||
-      item.querySelector('h1.entry-title a[rel="bookmark"]') ||
-      item.querySelector('.entry-title a[rel="bookmark"]') ||
-      item.querySelector("h2.entry-title a") ||
-      item.querySelector('h1 a[rel="bookmark"]') ||
-      item.querySelector('h2 a[rel="bookmark"]') ||
-      item.querySelector('a[rel="bookmark"]') ||
-      item.querySelector("h1 a, h2 a, h3 a");
+    // Check if we're on a single game page (not a listing)
+    const isSinglePage =
+      window.location.pathname.length > 1 &&
+      !window.location.pathname.includes("/category/") &&
+      !window.location.pathname.includes("/tag/");
 
-    // Get title from link or title element
     let title = "Unknown Game";
-    if (linkElement) {
-      title = linkElement.textContent || linkElement.innerText;
-    } else {
-      const titleElement = item.querySelector("h1, h2, h3, .entry-title");
-      if (titleElement) {
-        title = titleElement.textContent || titleElement.innerText;
+    let linkElement = null;
+
+    if (isSinglePage) {
+      // On single game page - try multiple sources for title
+      // 1. Try getting from document title first (most reliable)
+      const docTitle = document.title;
+      if (
+        docTitle &&
+        !docTitle.includes("FitGirl Repacks") &&
+        docTitle.trim().length > 0
+      ) {
+        // Remove " – FitGirl Repacks" suffix if present
+        title = docTitle.replace(/\s*[–-]\s*FitGirl Repacks.*$/i, "").trim();
+        console.log("Extracted title from document.title:", title);
       }
+
+      // 2. If that didn't work, try h1.entry-title
+      if (title === "Unknown Game") {
+        const h1Title = document.querySelector("h1.entry-title");
+        if (h1Title) {
+          title = (h1Title.textContent || h1Title.innerText || "").trim();
+          console.log("Extracted title from page h1:", title);
+        }
+      }
+
+      // 3. Last resort: try og:title meta tag
+      if (title === "Unknown Game") {
+        const ogTitle = document.querySelector('meta[property="og:title"]');
+        if (ogTitle && ogTitle.content) {
+          title = ogTitle.content
+            .replace(/\s*[–-]\s*FitGirl Repacks.*$/i, "")
+            .trim();
+          console.log("Extracted title from og:title:", title);
+        }
+      }
+    } else {
+      // On listing page - get title from link in the post item
+      linkElement =
+        item.querySelector('h1.entry-title a[rel="bookmark"]') ||
+        item.querySelector('h2.entry-title a[rel="bookmark"]') ||
+        item.querySelector('.entry-title a[rel="bookmark"]') ||
+        item.querySelector("h1.entry-title a") ||
+        item.querySelector("h2.entry-title a") ||
+        item.querySelector('h1 a[rel="bookmark"]') ||
+        item.querySelector('h2 a[rel="bookmark"]') ||
+        item.querySelector('a[rel="bookmark"]');
+
+      if (linkElement) {
+        title = (linkElement.textContent || linkElement.innerText || "").trim();
+        console.log("Extracted title from link:", title);
+      }
+    }
+
+    // Clean up the title
+    if (title && title !== "Unknown Game") {
+      // Remove extra whitespace
+      title = title.replace(/\s+/g, " ").trim();
+
+      // Remove date patterns at the start (e.g., "01/10/2025 Title" -> "Title")
+      title = title.replace(/^\d{1,2}[\/\-]\d{1,2}[\/\-]\d{2,4}\s+/, "");
+
+      // Remove "FitGirl" author tag if present at the end
+      title = title.replace(/\s+FitGirl\s*$/i, "");
+
+      console.log("Cleaned title:", title);
+    }
+
+    // Final validation
+    if (!title || title.trim().length === 0) {
+      console.warn("Empty title detected");
+      title = "Unknown Game";
+    } else if (title.length < 3) {
+      console.warn("Title too short:", title);
+      title = "Unknown Game";
+    } else if (/^\d{1,2}[\/\-]\d{1,2}[\/\-]\d{2,4}$/.test(title.trim())) {
+      console.warn("Title is only a date:", title);
+      title = "Unknown Game";
+    } else {
+      console.log("✓ Final valid title:", title);
     }
 
     const imageElement = item.querySelector("img");
@@ -304,7 +361,6 @@ class FitGirlWatchlist {
         watchlistItems: Array.from(this.watchlistItems),
       });
 
-      this.updateWatchlistPanel();
       this.showNotification(
         this.watchlistItems.has(gameId)
           ? "Added to watchlist!"
@@ -322,13 +378,6 @@ class FitGirlWatchlist {
     const reminderDate = new Date();
     reminderDate.setDate(reminderDate.getDate() + reminderDays);
     return reminderDate.toISOString();
-  }
-
-  async updateWatchlistPanel() {
-    const countElement = document.getElementById("fitgirl-watchlist-count");
-    if (countElement) {
-      countElement.textContent = `${this.watchlistItems.size} items in watchlist`;
-    }
   }
 
   showNotification(message, type = "success") {
