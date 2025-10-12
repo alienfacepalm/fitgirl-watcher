@@ -7,9 +7,11 @@ A browser extension that adds a watchlist feature to FitGirl repacks website, al
 - 🎮 **Easy Watchlist Management**: Add games to your watchlist with a single click
 - ⏰ **Smart Reminders**: Set custom reminder intervals (default: 7 days)
 - 🔔 **Desktop Notifications**: Get notified when it's time to check your watchlist
-- 📱 **Modern UI**: Clean, responsive interface that works on all devices
+- 🎨 **FitGirl-Themed UI**: Beautiful dark theme matching FitGirl's violet, black, and green colors
+- 🎯 **Intelligent Title Extraction**: Automatically cleans up game titles and removes dates
 - 💾 **Data Export/Import**: Backup and restore your watchlist data
-- 🎯 **Smart Detection**: Automatically detects game items on FitGirl pages
+- 🔥 **Welcome Toast**: Non-intrusive notification when landing on FitGirl site (shows once per hour)
+- 🖼️ **High-Quality Icons**: Sharp-based icon generation for crystal-clear visuals
 
 ## Installation
 
@@ -34,7 +36,7 @@ The native installer uses only standard web technologies (HTML, CSS, JavaScript)
 1. **Clone or download this repository**
 
    ```bash
-   git clone https://github.com/yourusername/fitgirl-watchlist-extension.git
+   git clone https://github.com/alienfacepalm/fitgirl-watcher.git
    cd fitgirl-watchlist-extension
    ```
 
@@ -52,10 +54,10 @@ The native installer uses only standard web technologies (HTML, CSS, JavaScript)
 
    ```bash
    # Using pnpm
-   pnpm run icons
+   pnpm run icons:create
    # Or using npm
-   npm run icons
-   # Then open assets/generate-icons.html in your browser and download the PNG icons
+   npm run icons:create
+   # This will automatically generate high-quality PNG icons from assets/fitgirl.png
    ```
 
 4. **Build the Extension**
@@ -96,15 +98,16 @@ The native installer uses only standard web technologies (HTML, CSS, JavaScript)
 1. **Clone or download this repository**
 
    ```bash
-   git clone https://github.com/yourusername/fitgirl-watchlist-extension.git
+   git clone https://github.com/alienfacepalm/fitgirl-watcher.git
    cd fitgirl-watchlist-extension
    ```
 
 2. **Generate Icons** (Required)
 
-   - Open `assets/generate-icons.html` in your browser
-   - Click the download buttons to generate the required PNG icons
-   - Place the downloaded PNG files in the `assets/icons/` directory
+   ```bash
+   pnpm run icons:create
+   ```
+   This will automatically generate high-quality PNG icons from `assets/fitgirl.png`
 
 3. **Build and Load the Extension**
    ```bash
@@ -372,7 +375,7 @@ This extension is not affiliated with FitGirl Repacks. It's an independent tool 
 
 If you encounter any issues or have suggestions:
 
-1. Check the [Issues](https://github.com/yourusername/fitgirl-watchlist-extension/issues) page
+1. Check the [Issues](https://github.com/alienfacepalm/fitgirl-watcher/issues) page
 2. Create a new issue with detailed information
 3. Include your browser version and extension version
 
