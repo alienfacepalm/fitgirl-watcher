@@ -233,14 +233,30 @@ class PopupManager {
   }
 
   renderWatchlistItem(item) {
-    const dateAdded = new Date(item.dateAdded).toLocaleDateString();
-    const reminderDate = new Date(item.reminderDate).toLocaleDateString();
+    // Format dates properly - use en-US locale for consistent MM/DD/YYYY format
+    const dateAdded = new Date(item.dateAdded).toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+    });
+    const reminderDate = new Date(item.reminderDate).toLocaleDateString(
+      "en-US",
+      {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+      }
+    );
     const isOverdue = new Date(item.reminderDate) < new Date();
+
+    // Ensure we have a proper title (not empty or undefined)
+    const title =
+      item.title && item.title.trim() ? item.title : "Untitled Game";
 
     return `
       <div class="watchlist-item ${isOverdue ? "overdue" : ""}">
         <div class="item-header">
-          <div class="item-title">${this.escapeHtml(item.title)}</div>
+          <div class="item-title">${this.escapeHtml(title)}</div>
           <div class="item-actions">
             <button class="action-btn-small visit-btn-small" data-url="${
               item.url
