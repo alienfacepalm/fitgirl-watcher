@@ -29,20 +29,28 @@ class ReleaseCreator {
     console.log("==============================================\n");
 
     try {
-      // Validate bump type
-      if (!["major", "minor", "patch", "prerelease"].includes(bumpType)) {
-        throw new Error(
-          'Invalid bump type. Use: "major", "minor", "patch", or "prerelease"'
-        );
-      }
-
       // Get current version
       const currentVersion = this.getCurrentVersion();
       console.log(`📋 Current version: ${currentVersion}`);
 
-      // Bump version
-      const newVersion = this.bumpVersion(currentVersion, bumpType);
-      console.log(`📈 New version: ${newVersion}`);
+      let newVersion;
+      
+      // Check if bumpType is a specific version number (e.g., "1.0.0")
+      if (/^\d+\.\d+\.\d+/.test(bumpType)) {
+        newVersion = bumpType;
+        console.log(`📌 Setting specific version: ${newVersion}`);
+      } else {
+        // Validate bump type
+        if (!["major", "minor", "patch", "prerelease"].includes(bumpType)) {
+          throw new Error(
+            'Invalid bump type. Use: "major", "minor", "patch", "prerelease", or a specific version like "1.0.0"'
+          );
+        }
+        
+        // Bump version
+        newVersion = this.bumpVersion(currentVersion, bumpType);
+        console.log(`📈 New version: ${newVersion}`);
+      }
 
       // Update package.json
       this.updatePackageJson(newVersion);

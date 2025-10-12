@@ -1,6 +1,6 @@
 {
   "name": "fitgirl-repacks-watchlist",
-  "version": "1.0.2",
+  "version": "1.0.0",
   "description": "A browser extension to create a watchlist for FitGirl repacks with reminder functionality",
   "main": "background.js",
   "scripts": {
@@ -21,9 +21,11 @@
     "release:minor": "node scripts/create-release.js minor",
     "release:major": "node scripts/create-release.js major",
     "release:pre": "node scripts/create-release.js prerelease",
+    "release:1.0.0": "node scripts/create-release.js 1.0.0",
     "release:publish": "node scripts/create-github-release.js",
     "enhance-packages": "node scripts/enhance-packages.js",
-    "clean:releases": "node scripts/clean-releases.js",
+    "clean:releases": "node -e \"const fs=require('fs'); if(fs.existsSync('releases')) {fs.rmSync('releases',{recursive:true,force:true}); console.log('Cleaned releases/');}\"",
+    "clean:releases:all": "node scripts/clean-releases.js",
     "clean:dist": "node -e \"const fs=require('fs'); if(fs.existsSync('dist')) fs.rmSync('dist', {recursive:true, force:true}); console.log('Cleaned dist/');\"",
     "clean": "npm run clean:dist",
     "clean:all": "node -e \"const fs=require('fs'); ['dist','releases'].forEach(d=>{if(fs.existsSync(d)) {fs.rmSync(d,{recursive:true,force:true}); console.log('Cleaned '+d+'/');}});\"",

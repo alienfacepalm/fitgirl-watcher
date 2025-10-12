@@ -1,105 +1,97 @@
 #!/usr/bin/env node
 
-/**
- * FitGirl Watchlist Extension - Release Cleaner
- * Cleans up old release files
- */
+const fs = require('fs');
+const path = require('path');
+const { execSync } = require('child_process');
 
-const fs = require("fs");
-const path = require("path");
+console.log('🧹 FitGirl Watchlist - Clean Releases');
+console.log('=====================================\n');
 
-class ReleaseCleaner {
-  constructor() {
-    this.rootDir = path.resolve(__dirname, "..");
-    this.releasesDir = path.join(this.rootDir, "releases");
+// Clean local releases directory
+const releasesDir = path.join(__dirname, '..', 'releases');
+if (fs.existsSync(releasesDir)) {
+  console.log('🗑️  Removing local releases directory...');
+  fs.rmSync(releasesDir, { recursive: true, force: true });
+  console.log('✅ Local releases cleaned\n');
+} else {
+  console.log('ℹ️  No local releases directory found\n');
+}
+
+// Clean GitHub releases
+console.log('🌐 Cleaning GitHub releases...');
+console.log('⚠️  This requires GitHub CLI (gh) to be installed and authenticated.\n');
+
+try {
+  // Check if gh is available
+  try {
+    execSync('gh --version', { stdio: 'ignore' });
+  } catch (error) {
+    console.log('❌ GitHub CLI (gh) is not installed or not in PATH.');
+    console.log('\nTo delete GitHub releases manually:');
+    console.log('1. Go to: https://github.com/alienfacepalm/fitgirl-watcher/releases');
+    console.log('2. Click on each release');
+    console.log('3. Click "Delete" button at the bottom');
+    console.log('\nOr install GitHub CLI:');
+    console.log('- Windows (as admin): choco install gh -y');
+    console.log('- Or download from: https://cli.github.com/');
+    process.exit(1);
   }
 
-  async cleanReleases(keepCount = 5) {
-    console.log("🧹 FitGirl Watchlist Extension - Release Cleaner");
-    console.log("==============================================\n");
+  // Get all releases
+  const releases = execSync('gh release list --repo alienfacepalm/fitgirl-watcher --limit 100', {
+    encoding: 'utf-8',
+  }).trim();
 
-    try {
-      if (!fs.existsSync(this.releasesDir)) {
-        console.log("📁 No releases directory found. Nothing to clean.");
-        return;
+  if (!releases) {
+    console.log('✅ No GitHub releases found\n');
+  } else {
+    const releaseLines = releases.split('\n');
+    console.log(`Found ${releaseLines.length} release(s) to delete:\n`);
+
+    for (const line of releaseLines) {
+      const tag = line.split('\t')[2]; // Tag is the 3rd column
+      if (tag) {
+        console.log(`  Deleting release: ${tag}`);
+        try {
+          execSync(`gh release delete ${tag} --repo alienfacepalm/fitgirl-watcher --yes`, {
+            stdio: 'inherit',
+          });
+        } catch (error) {
+          console.log(`  ⚠️  Failed to delete ${tag}`);
+        }
       }
-
-      const files = fs.readdirSync(this.releasesDir);
-      const releaseFiles = files.filter(
-        (file) =>
-          file.startsWith("fitgirl-watchlist-") &&
-          (file.endsWith(".zip") || file.endsWith(".xpi"))
-      );
-
-      if (releaseFiles.length <= keepCount) {
-        console.log(
-          `📦 Found ${releaseFiles.length} release files. Keeping all (limit: ${keepCount}).`
-        );
-        return;
-      }
-
-      // Sort by modification time (newest first)
-      const sortedFiles = releaseFiles
-        .map((file) => ({
-          name: file,
-          path: path.join(this.releasesDir, file),
-          mtime: fs.statSync(path.join(this.releasesDir, file)).mtime,
-        }))
-        .sort((a, b) => b.mtime - a.mtime);
-
-      const filesToDelete = sortedFiles.slice(keepCount);
-      const filesToKeep = sortedFiles.slice(0, keepCount);
-
-      console.log(`📦 Found ${releaseFiles.length} release files.`);
-      console.log(`✅ Keeping ${filesToKeep.length} newest files:`);
-      filesToKeep.forEach((file) => {
-        console.log(`  - ${file.name}`);
-      });
-
-      if (filesToDelete.length > 0) {
-        console.log(`\n🗑️  Deleting ${filesToDelete.length} old files:`);
-        filesToDelete.forEach((file) => {
-          try {
-            fs.unlinkSync(file.path);
-            console.log(`  ✓ Deleted: ${file.name}`);
-          } catch (error) {
-            console.error(
-              `  ❌ Failed to delete ${file.name}: ${error.message}`
-            );
-          }
-        });
-      }
-
-      console.log("\n🎉 Release cleanup complete!");
-    } catch (error) {
-      console.error("❌ Error cleaning releases:", error.message);
-      process.exit(1);
     }
-  }
-}
 
-// Main execution
-if (require.main === module) {
-  const args = process.argv.slice(2);
-  const keepCount = parseInt(args[0]) || 5;
-
-  if (args.includes("--help") || args.includes("-h")) {
-    console.log("FitGirl Watchlist Extension - Release Cleaner");
-    console.log("=============================================\n");
-    console.log("Usage:");
-    console.log("  node scripts/clean-releases.js [keep-count]\n");
-    console.log("Arguments:");
-    console.log(
-      "  keep-count    Number of recent releases to keep (default: 5)\n"
-    );
-    console.log("Examples:");
-    console.log("  node scripts/clean-releases.js");
-    console.log("  node scripts/clean-releases.js 10\n");
-    process.exit(0);
+    console.log('\n✅ GitHub releases cleaned');
   }
 
-  const cleaner = new ReleaseCleaner();
-  cleaner.cleanReleases(keepCount).catch(console.error);
+  // Delete all tags
+  console.log('\n🏷️  Cleaning Git tags...');
+  try {
+    const tags = execSync('git tag', { encoding: 'utf-8' }).trim();
+    if (tags) {
+      const tagList = tags.split('\n');
+      for (const tag of tagList) {
+        console.log(`  Deleting tag: ${tag}`);
+        execSync(`git tag -d ${tag}`, { stdio: 'inherit' });
+        try {
+          execSync(`git push origin :refs/tags/${tag}`, { stdio: 'inherit' });
+        } catch (error) {
+          console.log(`  ⚠️  Failed to delete remote tag ${tag}`);
+        }
+      }
+      console.log('✅ Git tags cleaned');
+    } else {
+      console.log('✅ No Git tags found');
+    }
+  } catch (error) {
+    console.log('ℹ️  No Git tags to clean');
+  }
+
+} catch (error) {
+  console.error('\n❌ Error cleaning GitHub releases:', error.message);
+  process.exit(1);
 }
 
-module.exports = ReleaseCleaner;
+console.log('\n🎉 Cleanup Complete!');
+console.log('You can now create a fresh 1.0.0 release with: pnpm run release:1.0.0\n');
