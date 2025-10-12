@@ -167,15 +167,72 @@ class FitGirlWatchlist {
   }
 
   extractGameInfo(item) {
-    const titleElement = item.querySelector(
-      "h1, h2, h3, .title, .entry-title, a"
-    );
-    const linkElement = item.querySelector("a[href]");
+    // Priority order for finding the correct game link:
+    // FitGirl uses WordPress, so look for permalink in title
+    let linkElement =
+      item.querySelector('h2.entry-title a[rel="bookmark"]') ||
+      item.querySelector('h1.entry-title a[rel="bookmark"]') ||
+      item.querySelector('.entry-title a[rel="bookmark"]') ||
+      item.querySelector("h2.entry-title a") ||
+      item.querySelector('h1 a[rel="bookmark"]') ||
+      item.querySelector('h2 a[rel="bookmark"]') ||
+      item.querySelector('a[rel="bookmark"]') ||
+      item.querySelector("h1 a, h2 a, h3 a");
+
+    // Get title from link or title element
+    let title = "Unknown Game";
+    if (linkElement) {
+      title = linkElement.textContent || linkElement.innerText;
+    } else {
+      const titleElement = item.querySelector("h1, h2, h3, .entry-title");
+      if (titleElement) {
+        title = titleElement.textContent || titleElement.innerText;
+      }
+    }
+
     const imageElement = item.querySelector("img");
 
+    // Get the actual game URL
+    let gameUrl = null;
+
+    if (linkElement && linkElement.href) {
+      // Filter out unwanted URLs (categories, tags, etc)
+      const href = linkElement.href;
+      if (
+        !href.includes("/category/") &&
+        !href.includes("/tag/") &&
+        !href.includes("/page/") &&
+        !href.includes("#") &&
+        href.includes("fitgirl-repacks.site/")
+      ) {
+        gameUrl = href;
+        console.log(
+          "✓ Found game link:",
+          gameUrl,
+          "for",
+          title.substring(0, 50)
+        );
+      }
+    } else if (
+      !window.location.href.includes("/category/") &&
+      !window.location.href.includes("/tag/") &&
+      !window.location.href.includes("/page/")
+    ) {
+      // If we're on a single game page, use current URL
+      gameUrl = window.location.href;
+      console.log("✓ Using current page URL:", gameUrl);
+    }
+
+    if (!gameUrl) {
+      console.warn(
+        "✗ Could not find valid game URL for:",
+        title.substring(0, 50)
+      );
+    }
+
     return {
-      title: titleElement?.textContent?.trim() || "Unknown Game",
-      url: linkElement?.href || window.location.href,
+      title: title.trim(),
+      url: gameUrl,
       image: imageElement?.src || "",
       dateAdded: new Date().toISOString(),
       domain: window.location.hostname,
@@ -191,6 +248,19 @@ class FitGirlWatchlist {
 
   async toggleWatchlistItem(gameId, gameInfo, button) {
     try {
+      // Validate that we have a proper game URL
+      if (
+        !gameInfo.url ||
+        gameInfo.url.includes("/category/") ||
+        gameInfo.url.includes("/tag/")
+      ) {
+        this.showNotification(
+          "Could not find game URL. Please open the game page directly.",
+          "error"
+        );
+        return;
+      }
+
       if (this.watchlistItems.has(gameId)) {
         // Remove from watchlist
         this.watchlistItems.delete(gameId);
@@ -211,14 +281,22 @@ class FitGirlWatchlist {
         `;
         button.classList.add("in-watchlist");
 
-        // Save to storage
+        // Save to storage with validated URL
         await chrome.storage.local.set({
           [`watchlist_${gameId}`]: {
             id: gameId,
             ...gameInfo,
+            url: gameInfo.url, // Ensure URL is saved
             reminderDate: this.calculateReminderDate(),
           },
         });
+
+        console.log(
+          "Added to watchlist:",
+          gameInfo.title,
+          "URL:",
+          gameInfo.url
+        );
       }
 
       // Update watchlist items array in storage
