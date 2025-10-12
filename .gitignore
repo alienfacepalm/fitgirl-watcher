@@ -37,6 +37,7 @@ Thumbs.db
 # Logs
 logs
 *.log
+script-logs/
 
 # Runtime data
 pids
