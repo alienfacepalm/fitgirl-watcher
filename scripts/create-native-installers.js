@@ -55,7 +55,9 @@ class NativeInstallerCreator {
       console.log("  - chrome-installer.html (Chrome/Edge)");
       console.log("  - firefox-installer.html (Firefox)");
       console.log("  - combined-installer.html (Both browsers)");
-      console.log("\n💡 Just double-click any .html file to run the installer!");
+      console.log(
+        "\n💡 Just double-click any .html file to run the installer!"
+      );
     } catch (error) {
       console.error("❌ Error creating native installers:", error.message);
       process.exit(1);
@@ -125,7 +127,10 @@ class NativeInstallerCreator {
       );
     }
 
-    const installerHtml = this.createCombinedInstallerHTML(chromeDir, firefoxDir);
+    const installerHtml = this.createCombinedInstallerHTML(
+      chromeDir,
+      firefoxDir
+    );
 
     const outputPath = path.join(this.installersDir, "combined-installer.html");
     fs.writeFileSync(outputPath, installerHtml);
@@ -326,6 +331,17 @@ class NativeInstallerCreator {
             color: #28a745;
             font-weight: bold;
         }
+
+        .consent {
+            background: #eef6ff;
+            border: 1px solid #cfe2ff;
+            border-radius: 8px;
+            padding: 16px;
+            margin: 16px 0 0 0;
+            color: #084298;
+        }
+        .consent label { display: flex; align-items: center; gap: 10px; cursor: pointer; }
+        .consent input { width: 18px; height: 18px; }
     </style>
 </head>
 <body>
@@ -379,16 +395,22 @@ class NativeInstallerCreator {
             </div>
             
             <div class="buttons">
-                <button class="btn btn-primary" onclick="installExtension()">Install Extension</button>
+                <button id="installBtn" class="btn btn-primary" onclick="installExtension()" disabled>Install Extension</button>
                 <button class="btn btn-secondary" onclick="window.close()">Cancel</button>
             </div>
             
             <div id="status" class="status"></div>
+            <div class="consent">
+                <label>
+                    <input type="checkbox" id="consentCheckbox" />
+                    I grant permission for the installer to: open the browser to extensions page, create a configuration file, and show the extension folder.
+                </label>
+            </div>
         </div>
     </div>
 
     <script>
-        const extensionPath = "${extensionDir.replace(/\\/g, '/')}";
+        const extensionPath = "${extensionDir.replace(/\\/g, "/")}";
         const browserUrl = "${browserUrl}";
         const browserType = "${browserType}";
         
@@ -404,6 +426,7 @@ class NativeInstallerCreator {
                 reminderDays: parseInt(document.getElementById('reminderDays').value),
                 notifications: document.getElementById('notifications').value === 'true',
                 autoOpen: document.getElementById('autoOpen').value === 'true',
+                consent: document.getElementById('consentCheckbox') ? document.getElementById('consentCheckbox').checked : true,
                 version: '${this.config.version}',
                 installed: new Date().toISOString()
             };
@@ -467,6 +490,11 @@ class NativeInstallerCreator {
         
         function installExtension() {
             try {
+                const consent = document.getElementById('consentCheckbox').checked;
+                if (!consent) {
+                    showStatus('Please grant permission to proceed.', 'error');
+                    return;
+                }
                 showStatus('Installing extension...', 'success');
                 
                 // Save user preferences
@@ -496,9 +524,26 @@ class NativeInstallerCreator {
             }
         }
         
-        // Show extension path on load
+        // Show extension path on load & restore preferences
         window.addEventListener('load', function() {
             showStatus('Extension will be installed from: ' + extensionPath, 'success');
+            const cb = document.getElementById('consentCheckbox');
+            const btn = document.getElementById('installBtn');
+            cb.addEventListener('change', function(){ btn.disabled = !cb.checked; });
+
+            try {
+              const saved = localStorage.getItem('fitgirl-watchlist-preferences');
+              if (saved) {
+                const prefs = JSON.parse(saved);
+                if (typeof prefs.reminderDays === 'number') document.getElementById('reminderDays').value = prefs.reminderDays;
+                if (typeof prefs.notifications === 'boolean') document.getElementById('notifications').value = String(prefs.notifications);
+                if (typeof prefs.autoOpen === 'boolean') document.getElementById('autoOpen').value = String(prefs.autoOpen);
+                if (typeof prefs.consent === 'boolean') {
+                  cb.checked = prefs.consent;
+                  btn.disabled = !prefs.consent;
+                }
+              }
+            } catch(e) { /* ignore */ }
         });
     </script>
 </body>
@@ -779,8 +824,8 @@ class NativeInstallerCreator {
     </div>
 
     <script>
-        const chromePath = "${chromeDir.replace(/\\/g, '/')}";
-        const firefoxPath = "${firefoxDir.replace(/\\/g, '/')}";
+        const chromePath = "${chromeDir.replace(/\\/g, "/")}";
+        const firefoxPath = "${firefoxDir.replace(/\\/g, "/")}";
         let selectedBrowser = 'chrome';
         
         function selectBrowser(browser) {

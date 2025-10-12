@@ -149,37 +149,85 @@ class ChromeBuilder {
   }
 
   createPlaceholderIcons(iconsDir, missingIcons) {
-    console.log("🔧 Creating placeholder icons...");
+    console.log("🔧 Creating placeholder PNG icons...");
 
-    // Simple SVG-based icon generation
-    const svgIcon = `
-      <svg width="128" height="128" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
-            <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
-          </linearGradient>
-        </defs>
-        <circle cx="64" cy="64" r="60" fill="url(#grad1)" stroke="#fff" stroke-width="4"/>
-        <text x="64" y="75" text-anchor="middle" fill="white" font-family="Arial" font-size="24" font-weight="bold">🎮</text>
-      </svg>
-    `;
+    if (!fs.existsSync(iconsDir)) {
+      fs.mkdirSync(iconsDir, { recursive: true });
+    }
 
     missingIcons.forEach((icon) => {
       const size = parseInt(icon.match(/\d+/)[0]);
-      const svgPath = path.join(iconsDir, icon.replace(".png", ".svg"));
-      fs.writeFileSync(svgPath, svgIcon);
-      console.log(
-        `  ✓ Created ${icon.replace(".png", ".svg")} (${size}x${size})`
-      );
+      const pngPath = path.join(iconsDir, icon);
+      
+      // Create a simple PNG file programmatically
+      const png = this.createSimplePNG(size, size);
+      fs.writeFileSync(pngPath, png);
+      console.log(`  ✓ Created ${icon} (${size}x${size})`);
     });
+  }
 
-    console.log(
-      "⚠️  Note: PNG icons are required for the extension to work properly"
-    );
-    console.log(
-      "   Please convert the SVG files to PNG or use generate-icons.html"
-    );
+  createSimplePNG(width, height) {
+    // Create a minimal PNG file with FitGirl pink/red gradient
+    // PNG signature + IHDR + IDAT + IEND chunks
+    const signature = Buffer.from([0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A]);
+    
+    // IHDR chunk
+    const ihdr = Buffer.alloc(25);
+    ihdr.writeUInt32BE(13, 0); // chunk length
+    ihdr.write('IHDR', 4);
+    ihdr.writeUInt32BE(width, 8);
+    ihdr.writeUInt32BE(height, 12);
+    ihdr.writeUInt8(8, 16); // bit depth
+    ihdr.writeUInt8(2, 17); // color type (RGB)
+    ihdr.writeUInt8(0, 18); // compression
+    ihdr.writeUInt8(0, 19); // filter
+    ihdr.writeUInt8(0, 20); // interlace
+    ihdr.writeUInt32BE(this.crc32(ihdr.slice(4, 21)), 21);
+    
+    // Create gradient-like image data (FitGirl pink/red gradient)
+    const scanlineSize = 1 + width * 3; // filter byte + RGB pixels
+    const imageData = Buffer.alloc(scanlineSize * height);
+    
+    for (let y = 0; y < height; y++) {
+      const offset = y * scanlineSize;
+      imageData[offset] = 0; // no filter
+      
+      for (let x = 0; x < width; x++) {
+        const pixelOffset = offset + 1 + x * 3;
+        // Gradient from bright pink (#ff1744) to deep pink (#f50057)
+        const ratio = y / height;
+        imageData[pixelOffset] = Math.floor(255 + (245 - 255) * ratio);     // R
+        imageData[pixelOffset + 1] = Math.floor(23 + (0 - 23) * ratio);     // G
+        imageData[pixelOffset + 2] = Math.floor(68 + (87 - 68) * ratio);    // B
+      }
+    }
+    
+    // Compress image data
+    const zlib = require('zlib');
+    const compressed = zlib.deflateSync(imageData);
+    
+    // IDAT chunk
+    const idat = Buffer.alloc(12 + compressed.length);
+    idat.writeUInt32BE(compressed.length, 0);
+    idat.write('IDAT', 4);
+    compressed.copy(idat, 8);
+    idat.writeUInt32BE(this.crc32(idat.slice(4, 8 + compressed.length)), 8 + compressed.length);
+    
+    // IEND chunk
+    const iend = Buffer.from([0x00, 0x00, 0x00, 0x00, 0x49, 0x45, 0x4E, 0x44, 0xAE, 0x42, 0x60, 0x82]);
+    
+    return Buffer.concat([signature, ihdr, idat, iend]);
+  }
+
+  crc32(buf) {
+    let crc = 0xFFFFFFFF;
+    for (let i = 0; i < buf.length; i++) {
+      crc = crc ^ buf[i];
+      for (let j = 0; j < 8; j++) {
+        crc = (crc & 1) ? (0xEDB88320 ^ (crc >>> 1)) : (crc >>> 1);
+      }
+    }
+    return (crc ^ 0xFFFFFFFF) >>> 0;
   }
 
   updateManifestVersion() {
