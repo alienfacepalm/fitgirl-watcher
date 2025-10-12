@@ -16,6 +16,9 @@ class WatchlistManager {
 
     // Initialize storage
     this.initializeStorage();
+
+    // Manage extension icon visibility
+    this.setupIconVisibility();
   }
 
   async handleMessage(message, sender, sendResponse) {
@@ -308,6 +311,41 @@ class WatchlistManager {
     } catch (error) {
       console.error("Error handling daily reminder check:", error);
     }
+  }
+
+  setupIconVisibility() {
+    // Check if on FitGirl site and enable/disable icon accordingly
+    const checkTab = async (tabId, url) => {
+      if (!url) return;
+      
+      const isFitGirlSite = url.includes('fitgirl-repacks.site');
+      
+      if (isFitGirlSite) {
+        await chrome.action.enable(tabId);
+      } else {
+        await chrome.action.disable(tabId);
+      }
+    };
+
+    // Listen for tab updates
+    chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
+      if (changeInfo.url) {
+        checkTab(tabId, changeInfo.url);
+      }
+    });
+
+    // Listen for tab activation (switching between tabs)
+    chrome.tabs.onActivated.addListener(async (activeInfo) => {
+      const tab = await chrome.tabs.get(activeInfo.tabId);
+      checkTab(activeInfo.tabId, tab.url);
+    });
+
+    // Check current active tab on startup
+    chrome.tabs.query({ active: true, currentWindow: true }).then((tabs) => {
+      if (tabs[0]) {
+        checkTab(tabs[0].id, tabs[0].url);
+      }
+    });
   }
 }
 
